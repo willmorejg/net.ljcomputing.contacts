@@ -36,6 +36,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/** Contact data model. */
 @Data
 @ToString
 @EqualsAndHashCode
@@ -44,30 +45,36 @@ import lombok.ToString;
 @Entity
 @Table(name = "contacts")
 public class Contact {
+    /** Id of Contact. */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    /** Given (first) name of Contact. */
     @Column(name = "given_name", length = 100)
     @Size(max = 100)
     @NotNull
     @NotEmpty(message = "Given name is required")
     private String givenName;
 
+    /** Middle name of Contact. */
     @Column(name = "middle_name", length = 100)
     @Size(max = 100)
     private String middleName;
 
+    /** Surname (last name) of Contact. */
     @Column(name = "surname", length = 100)
     @Size(max = 100)
     @NotNull
     @NotEmpty(message = "Surname is required")
     private String surname;
 
+    /** Suffix of Contact. */
     @Column(name = "suffix", length = 100)
     @Size(max = 100)
     private String suffix;
 
+    /** Trim the values of this Contact. */
     public void trimValues() {
         this.givenName = this.givenName.trim();
         this.middleName = this.middleName.trim();

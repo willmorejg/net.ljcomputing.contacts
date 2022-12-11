@@ -23,8 +23,14 @@ package net.ljcomputing.contacts;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+/** Servlet initializer. */
 public class ServletInitializer extends SpringBootServletInitializer {
 
+    /**
+     * Configure the Servlet initializer.
+     *
+     * @return
+     */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(ContactsApplication.class);

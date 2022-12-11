@@ -29,26 +29,51 @@ import net.ljcomputing.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/** Contact Service Implementation. */
 @Service
 public class ContactServiceImpl implements ContactService {
+    /** Contact data repository. */
     @Autowired private ContactRepository contactRepository;
 
+    /**
+     * Persist the given Contact.
+     *
+     * @param contact
+     * @return
+     */
     @Override
     public Contact persist(@Valid Contact contact) {
         contactRepository.save(contact);
         return contact;
     }
 
+    /**
+     * Retrieve all Contacts.
+     *
+     * @return
+     */
     @Override
     public List<Contact> retrieveAll() {
         return contactRepository.findAll();
     }
 
+    /**
+     * Retrieve Contact by given id.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Contact retrieve(String id) {
         return contactRepository.findById(UUID.fromString(id)).get();
     }
 
+    /**
+     * Delete Contact by given id.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public void delete(String id) {
         contactRepository.deleteById(UUID.fromString(id));

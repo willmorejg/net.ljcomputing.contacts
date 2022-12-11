@@ -31,10 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/** Contacts Application Unit Tests. */
 @SpringBootTest
 class ContactsApplicationTests {
+    /** Contact Service. */
     @Autowired private ContactService contactService;
 
+    /** Repository (Service) Test. */
     @Test
     void repositoryTest() {
         List<Contact> contacts = new ArrayList<>();

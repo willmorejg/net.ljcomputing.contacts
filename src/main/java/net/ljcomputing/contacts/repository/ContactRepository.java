@@ -24,4 +24,5 @@ import java.util.UUID;
 import net.ljcomputing.contacts.model.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/** Contact data repository. */
 public interface ContactRepository extends JpaRepository<Contact, UUID> {}
