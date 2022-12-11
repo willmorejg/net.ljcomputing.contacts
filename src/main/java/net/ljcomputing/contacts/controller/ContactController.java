@@ -67,12 +67,24 @@ public class ContactController {
         return contactService.persist(contact);
     }
 
+    /**
+     * Get the Contact by the given id.
+     *
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public Contact getContact(@PathVariable String id) {
         return contactService.retrieve(id);
     }
 
+    /**
+     * Delete the Contact by the given id.
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteContact(@PathVariable String id) {
