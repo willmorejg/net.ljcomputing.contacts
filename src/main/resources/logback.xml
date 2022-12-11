@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="logname" value="contacts" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%green(%date{dd MMM yyyy HH:mm:ss.SSS}) %-4relative [%thread] %highlight(%level{5}) %cyan(%logger{35}) %blue(%L) : %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <timestamp key="byDay" datePattern="yyyyMMdd'T'HHmmss" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/logs/${logname}-${byDay}.txt </file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${user.home}/logs/${logname}.%d{yyyy-MM-dd}.%i.txt
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date{dd MMM yyyy HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} %L : %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--
+    <turboFilter class="ch.qos.logback.classic.turbo.DynamicThresholdFilter">
+        <Key>LOG_LEVEL</Key>
+        <DefaultThreshold>INFO</DefaultThreshold>
+        <MDCValueLevelPair>
+            <value>TRACE</value>
+            <level>TRACE</level>
+        </MDCValueLevelPair>
+        <MDCValueLevelPair>
+            <value>DEBUG</value>
+            <level>DEBUG</level>
+        </MDCValueLevelPair>
+        <MDCValueLevelPair>
+            <value>INFO</value>
+            <level>INFO</level>
+        </MDCValueLevelPair>
+        <MDCValueLevelPair>
+            <value>WARN</value>
+            <level>WARN</level>
+        </MDCValueLevelPair>
+        <MDCValueLevelPair>
+            <value>ERROR</value>
+            <level>ERROR</level>
+        </MDCValueLevelPair>
+    </turboFilter>
+    -->
+
+    <logger name="ch.qos.logback" level="ERROR"/>
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="com.zaxxer.hikari" level="ERROR" />
+    <logger name="org.apache.poi" level="ERROR" />
+    <logger name="org.mongodb" level="ERROR" />
+    <logger name="net.ljcomputing" level="DEBUG" />
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" />
+
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

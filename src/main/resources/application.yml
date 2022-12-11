@@ -1,0 +1,30 @@
+info:
+  app:
+    title: Contacts
+    version: 1.0.0
+
+devtools:
+  restart:
+    trigger-file: .triggerFile
+    additional-paths: build
+
+server:
+  port: 9987
+
+spring:
+  web:
+    resources:
+      static-locations: 
+        - "file:src/main/resources/static/dist"
+        - "classpath:/static/dist"
+        - "file:src/main/resources/public"
+        - "classpath:/public"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/contacts
+    username: contacts
+    password: password
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create

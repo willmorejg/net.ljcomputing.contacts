@@ -1,0 +1,56 @@
+/* James G Willmore - LJ Computing - (C) 2022 */
+import { createStore } from "vuex";
+
+export default createStore({
+    state: {
+        reloadContactsList: false,
+        retrieveContact: false,
+        contactId: "",
+    },
+    getters: {
+        isReload: (state) => state.reloadContactsList,
+        isRetrieve: (state) => state.retrieveContact,
+        contactId: (state) => state.contactId,
+    },
+    mutations: {
+        RELOAD(state) {
+            state.reloadContactsList = true;
+        },
+        RELOADED(state) {
+            state.reloadContactsList = false;
+        },
+        RETRIEVE(state) {
+            state.retrieveContact = true;
+        },
+        RETRIEVED(state) {
+            state.retrieveContact = false;
+        },
+        CONTACT_ID(state, id) {
+            state.contactId = id;
+        },
+    },
+    actions: {
+        reload(context) {
+            console.log("RELOAD");
+            context.commit("RELOAD");
+        },
+        reloaded(context) {
+            console.log("RELOADED");
+            context.commit("RELOADED");
+        },
+        retrieve(context) {
+            console.log("RETRIEVE");
+            context.commit("RETRIEVE");
+        },
+        retrieved(context) {
+            console.log("RETRIEVED");
+            context.commit("CONTACT_ID", "");
+            context.commit("RETRIEVED");
+        },
+        contactId(context, id) {
+            console.log("CONTACT_ID");
+            context.commit("CONTACT_ID", id);
+        },
+    },
+    modules: {},
+});
