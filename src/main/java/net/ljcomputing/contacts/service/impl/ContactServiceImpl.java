@@ -27,6 +27,8 @@ import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.repository.ContactRepository;
 import net.ljcomputing.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /** Contact Service Implementation. */
@@ -55,6 +57,16 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<Contact> retrieveAll() {
         return contactRepository.findAll();
+    }
+
+    /**
+     * Retrieve Page of Contacts.
+     *
+     * @return
+     */
+    @Override
+    public Page<Contact> retrievePage(Pageable pageable) {
+        return contactRepository.findAll(pageable);
     }
 
     /**

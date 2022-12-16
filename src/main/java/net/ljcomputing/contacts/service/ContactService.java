@@ -22,6 +22,8 @@ package net.ljcomputing.contacts.service;
 
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /** Contact Service. */
 public interface ContactService {
@@ -39,6 +41,14 @@ public interface ContactService {
      * @return
      */
     List<Contact> retrieveAll();
+
+    /**
+     * Retrieve Page of Contacts.
+     *
+     * @param pageable
+     * @return
+     */
+    Page<Contact> retrievePage(Pageable pageable);
 
     /**
      * Retrieve Contact by given id.

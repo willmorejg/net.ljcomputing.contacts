@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <p>Contacts view</p>
         <div>
             <ContactDetail></ContactDetail>
             <ContactsList></ContactsList>
