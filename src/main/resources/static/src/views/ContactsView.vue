@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ContactDetail from '@/components/ContactDetail.vue';
-import ContactsList from '@/components/ContactsList.vue';
+import ContactDetail from '@/components/model/contact/ContactDetail.vue';
+import ContactsList from '@/components/model/contact/ContactsList.vue';
 import store from '@/store';
 
 export default defineComponent({
