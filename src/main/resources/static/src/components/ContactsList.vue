@@ -65,8 +65,8 @@ import { mapState } from 'vuex';
 import axios from '@/axios-instance'
 
 import Contact from '@/model/Contact'
-import ErrorModal from './ErrorModal.vue';
-import Pagnation from './Pagnation.vue';
+import ErrorModal from './common/ErrorModal.vue';
+import Pagnation from './common/Pagnation.vue';
 import store from '@/store';
 
 let contacts: Contact[] = [{}];

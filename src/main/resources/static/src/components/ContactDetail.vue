@@ -57,7 +57,7 @@ import { required } from '@vuelidate/validators'
 import axios from '@/axios-instance'
 
 import Contact from '@/model/Contact'
-import ErrorModal from './ErrorModal.vue';
+import ErrorModal from './common/ErrorModal.vue';
 import store from '@/store';
 
 let errorMsg: string = ""
