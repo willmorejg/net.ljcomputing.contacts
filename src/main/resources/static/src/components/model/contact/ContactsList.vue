@@ -3,10 +3,6 @@
 
   <div class="container">
     <div class="card">
-      <div class="d-flex justify-content-center centered" v-if="reloadContactsList">
-        <strong class="display-3">Loading...</strong>
-        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-      </div>
       <h5 class="card-title">Contacts List</h5>
       <div class="card-body" v-if="contacts.length > 0">
         <div class="table-responsive">
@@ -46,19 +42,6 @@
 
 </template>
 
-<style>
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transform: -webkit-translate(-50%, -50%);
-  transform: -moz-translate(-50%, -50%);
-  transform: -ms-translate(-50%, -50%);
-  color: rgb(80, 236, 132);
-}
-</style>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { mapState } from 'vuex';
@@ -67,6 +50,7 @@ import axios from '@/axios-instance'
 import Contact from '@/model/Contact'
 import ErrorModal from '../../common/ErrorModal.vue';
 import Pagnation from '../../common/Pagnation.vue';
+import CenterLoadingSpinner from '../../common/CenterLoadingSpinner.vue';
 import store from '@/store';
 
 let contacts: Contact[] = [{}];
@@ -77,10 +61,10 @@ export default defineComponent({
   components: {
     ErrorModal,
     Pagnation,
+    CenterLoadingSpinner,
   },
   mounted() {
     this.retrieve();
-    store.dispatch('reloaded')
   },
   data() {
     return {

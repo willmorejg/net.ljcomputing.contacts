@@ -10,6 +10,7 @@ export default createStore({
     getters: {
         isReload: (state) => state.reloadContactsList,
         isRetrieve: (state) => state.retrieveContact,
+        loading: (state) => state.reloadContactsList || state.retrieveContact,
         contactId: (state) => state.contactId,
     },
     mutations: {
