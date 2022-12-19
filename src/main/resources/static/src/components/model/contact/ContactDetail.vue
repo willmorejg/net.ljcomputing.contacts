@@ -56,7 +56,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import axios from '@/axios-instance'
 
-import Contact from '@/model/Contact'
+import Contact from '@/model/contact/Contact'
 import ErrorModal from '../../common/ErrorModal.vue';
 import store from '@/store';
 

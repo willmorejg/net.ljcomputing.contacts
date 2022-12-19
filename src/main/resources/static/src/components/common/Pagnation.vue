@@ -80,7 +80,7 @@ export default defineComponent({
             return c
         },
         setTotalElements: function (totalElements: number) {
-            this.totalElements = totalElements
+            this.totalElements = totalElements || 0
 
             if (this.page > this.pages()) {
                 this.page = this.pages()
@@ -90,27 +90,23 @@ export default defineComponent({
             return this.totalElements
         },
         pages: function () {
-            let l = this.totalElements
+            let l = this.totalElements || 0
             let i = this.itemsPerPage
-            let value = Math.ceil(l / i)
+            let value = 1
 
-            if (value == 0) {
-                value = 1
+            if(l != 0) {
+                value = Math.ceil(l / i)
+                if (value == 0) {
+                    value = 1
+                }
             }
 
             return value
         },
         setActive: function (page: number) {
-            this.page = page
+            this.page = page || 1
             store.dispatch('reload')
         },
     },
-    // watch: {
-    //     data() {
-    //         if (this.page > this.pages()) {
-    //             this.setActive(this.pages())
-    //         }
-    //     }
-    // }
 })
 </script>

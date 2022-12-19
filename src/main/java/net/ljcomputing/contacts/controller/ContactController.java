@@ -21,7 +21,6 @@ James G Willmore - LJ Computing - (C) 2022
 package net.ljcomputing.contacts.controller;
 
 import javax.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
 /** Contact Controller. */
 @RestController
 @RequestMapping(value = "api/contacts")
-@Slf4j
 public class ContactController {
 
     /** Contact Service. */

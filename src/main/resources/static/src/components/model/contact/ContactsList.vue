@@ -4,7 +4,7 @@
   <div class="container">
     <div class="card">
       <h5 class="card-title">Contacts List</h5>
-      <div class="card-body" v-if="contacts.length > 0">
+      <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements > 0">
         <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered align-middle">
             <thead>
@@ -18,7 +18,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="contact in contacts">
+              <tr v-for="contact in store.getters.contactsPageResponse.data">
                 <td>{{ contact.id }}</td>
                 <td>{{ contact.givenName }}</td>
                 <td>{{ contact.middleName }}</td>
@@ -31,13 +31,13 @@
               </tr>
             </tbody>
           </table>
-          <Pagnation ref="contactsPagnation" :bound-data="contacts" :items-per-page="itemsPerPage"></Pagnation>
+          <Pagnation ref="contactsPagnation" :bound-data="store.getters.contactsPageResponse.data" :items-per-page="store.getters.contactsPageRequest.itemsPerPage"></Pagnation>
         </div>
       </div>
-      <div class="card-body" v-if="contacts.length == 0">
+      <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements == 0">
         No records.
       </div>
-    </div>
+     </div>
   </div>
 
 </template>
@@ -47,7 +47,8 @@ import { defineComponent, ref } from 'vue';
 import { mapState } from 'vuex';
 import axios from '@/axios-instance'
 
-import Contact from '@/model/Contact'
+import Contact from '@/model/contact/Contact'
+import ContactsServices from '@/service/ContactsService';
 import ErrorModal from '../../common/ErrorModal.vue';
 import Pagnation from '../../common/Pagnation.vue';
 import CenterLoadingSpinner from '../../common/CenterLoadingSpinner.vue';
@@ -70,45 +71,18 @@ export default defineComponent({
     return {
       itemsPerPage,
       contacts,
+      store,
     };
   },
   methods: {
     retrieve: function () {
       let contactsPagnation = this.$refs.contactsPagnation as any
       let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0
-
-      const setContacts = this.setContacts
-      const setTotalElements = this.setTotalElements
-      const showModal = this.showModal
-
-      console.log('page', page, 'size', this.itemsPerPage)
-
-      axios.get('api/contacts', { params: { 'page': page, 'pageSize': this.itemsPerPage } })
-        .then(function (response) {
-          console.log('response', response)
-          store.dispatch('reloaded')
-          setContacts(response.data.content);
-          setTotalElements(response.data.totalElements)
-        })
-        .catch(function (error) {
-          console.log('error', error);
-          showModal(error.message)
-        });
+      ContactsServices.setActivePage(page)
+      ContactsServices.loadContacts()
     },
     deleteContact: function (id: string) {
-      const showModal = this.showModal
-      const setTotalElements = this.setTotalElements
-      let contactsPagnation = this.$refs.contactsPagnation as any
-
-      axios.delete('api/contacts/' + id)
-        .then(function (response) {
-          setTotalElements(contactsPagnation.getTotalElements() - 1)
-          store.dispatch('reload')
-        })
-        .catch(function (error) {
-          console.log('error', error);
-          showModal(error.message)
-        });
+      ContactsServices.deleteContact(id)
     },
     editContact: function (id: string) {
       store.dispatch('contactId', id)
@@ -134,6 +108,8 @@ export default defineComponent({
     reloadContactsList: function (newValue) {
       if (newValue) {
         this.retrieve()
+      } else {
+        this.setTotalElements(store.getters.contactsPageResponse.totalElements)
       }
     },
   }
