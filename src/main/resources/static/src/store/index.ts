@@ -1,7 +1,4 @@
 /* James G Willmore - LJ Computing - (C) 2022 */
-import Contact from "@/model/contact/Contact";
-import PageRequest from "@/model/shared/PageRequest";
-import PageResponse from "@/model/shared/PageResponse";
 import contactsStore from "@/store/contacts/index";
 import { createStore } from "vuex";
 
