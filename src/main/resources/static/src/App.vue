@@ -1,23 +1,23 @@
 <template>
-  <div class="container fluid">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Contacts App</a>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <router-link to="/view/" class="nav-link">Home</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/view/contacts" class="nav-link">Contacts</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/view/about" class="nav-link">About</router-link>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary fs-6">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Contacts App</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/view/" class="nav-link">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link id="viewContacts" to="/view/contacts" class="nav-link">Contacts</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/view/about" class="nav-link">About</router-link>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
+  <div class="container fluid">
     <div class="card border-secondary mb-3">
       <h5 class="card-header">{{ $route.name }}</h5>
       <div class="card-body">
@@ -50,12 +50,19 @@
 }
 
 
-.nav-item > :hover {
+.nav-item> :hover {
   border: 1px rgb(18, 33, 102) solid;
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
   background-color: rgb(76, 91, 226);
+}
+
+.card {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 </style>

@@ -2,19 +2,18 @@
     <div class="modal" id="errorModal" ref="$errorModal">
         <div class="modal-dialog">
 
-            <div class="modal-content">
+            <div class="modal-content bg-light text-dark">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">An Error Occured</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title">An Error Occured</h5>
                 </div>
 
-                <div class="modal-body">
-                    {{ errorMsg }}
-                </div>
+                    <div class="modal-body">
+                        {{ errorMsg }}
+                    </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="close">Close</button>
                 </div>
 
             </div>
@@ -26,6 +25,7 @@
 import { defineComponent, ref } from 'vue';
 import { Modal } from 'bootstrap'
 
+let modal = null as any
 let errorMsg: string = ""
 
 export default defineComponent({
@@ -36,12 +36,16 @@ export default defineComponent({
         };
     },
     mounted() {
+        let m = this.$refs.$errorModal as any
+        modal = new Modal(m)
     },
     methods: {
         showModal: function (message: string) {
             this.errorMsg = message
-            const modal = this.$refs.$errorModal as any
-            new Modal(modal).show()
+            modal.show()
+        },
+        close() {
+            modal.hide()
         },
     },
 });

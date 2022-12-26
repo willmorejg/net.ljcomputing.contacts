@@ -34,7 +34,7 @@
           <Pagnation ref="contactsPagnation" :bound-data="store.getters.contactsPageResponse.data" :items-per-page="store.getters.contactsPageRequest.itemsPerPage"></Pagnation>
         </div>
       </div>
-      <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements == 0">
+      <div id="contactsNoRecords" class="card-body" v-if="store.getters.contactsPageResponse.totalElements == 0">
         No records.
       </div>
      </div>
@@ -45,7 +45,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { mapState } from 'vuex';
-import axios from '@/axios-instance'
 
 import Contact from '@/model/contact/Contact'
 import ContactsServices from '@/service/ContactsService';
@@ -53,6 +52,7 @@ import ErrorModal from '../../common/ErrorModal.vue';
 import Pagnation from '../../common/Pagnation.vue';
 import CenterLoadingSpinner from '../../common/CenterLoadingSpinner.vue';
 import store from '@/store';
+import PageResponse from '@/model/shared/PageResponse';
 
 let contacts: Contact[] = [{}];
 let itemsPerPage: number = 2;
@@ -76,10 +76,18 @@ export default defineComponent({
   },
   methods: {
     retrieve: function () {
+      const showModal = this.showModal
       let contactsPagnation = this.$refs.contactsPagnation as any
       let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0
       ContactsServices.setActivePage(page)
-      ContactsServices.loadContacts()
+      ContactsServices.loadContacts().finally(() => {
+        console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
+        let response: PageResponse = store.getters.contactsPageResponse
+
+        if(response.hasError()) {
+          showModal(response.errorMessage as string)
+        }
+      })
     },
     deleteContact: function (id: string) {
       ContactsServices.deleteContact(id)

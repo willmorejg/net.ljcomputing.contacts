@@ -33,7 +33,8 @@ export default class ContactsServices {
                 console.log("response", response);
                 let pageResponse: PageResponse = new PageResponse(
                     response.data.content as Array<Contact>,
-                    response.data.totalElements
+                    response.data.totalElements,
+                    ""
                 );
                 console.log("pageResponse", pageResponse);
                 store.dispatch("contactsPageResponse", pageResponse);
@@ -42,6 +43,8 @@ export default class ContactsServices {
             .catch(function (error) {
                 console.log("error", error);
                 let pageResponse: PageResponse = new PageResponse(
+                    [],
+                    0,
                     error.message
                 );
                 store.dispatch("contactsPageResponse", pageResponse);
