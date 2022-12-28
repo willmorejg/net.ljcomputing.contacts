@@ -25,8 +25,8 @@
                 <td>{{ contact.surname }}</td>
                 <td>{{ contact.suffix }}</td>
                 <td>
-                  <a href="#" @click="editContact(contact.id)">Edit</a>&nbsp;
-                  <a href="#" @click="deleteContact(contact.id)">Delete</a>
+                  <a href="javascript:void(0);" @click="editContact(contact.id)">Edit</a>&nbsp;
+                  <a href="javascript:void(0);" @click="deleteContact(contact.id)">Delete</a>
                 </td>
               </tr>
             </tbody>

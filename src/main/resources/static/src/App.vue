@@ -5,7 +5,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/view/" class="nav-link">Home</router-link>
+            <router-link to="/view/home" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
             <router-link id="viewContacts" to="/view/contacts" class="nav-link">Contacts</router-link>

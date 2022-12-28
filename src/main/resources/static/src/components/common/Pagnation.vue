@@ -1,17 +1,17 @@
 <template>
     <ul class="pagination justify-content-center">
         <li v-bind:class="disablePrevious()">
-            <a class="page-link" href="#" @click="previous()">Previous</a>
+            <a class="page-link" href="javascript:void(0);" @click="previous()">Previous</a>
         </li>
         <li class="page-item" v-for="p in pages()">
-            <a v-bind:class="active(p)" href="#" @click="setActive(p)">{{ p }}</a>
+            <a v-bind:class="active(p)" href="javascript:void(0);" @click="setActive(p)">{{ p }}</a>
         </li>
         <li v-bind:class="disableNext()">
-            <a class="page-link" href="#" @click="next()">Next</a>
+            <a class="page-link" href="javascript:void(0);" @click="next()">Next</a>
         </li>
     </ul>
     <div class="text-center">
-        Page {{ page }} of {{ pages() }}
+        Page {{ page }} of {{ pages() }} (Total records: {{ totalElements }})
     </div>
 </template>
 
@@ -83,7 +83,7 @@ export default defineComponent({
             this.totalElements = totalElements || 0
 
             if (this.page > this.pages()) {
-                this.page = this.pages()
+                this.setActive(this.pages())
             }
         },
         getTotalElements: function () {

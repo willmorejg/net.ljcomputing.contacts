@@ -39,8 +39,8 @@
           <div class="col-6 w-50">* indicates required field</div>
           <div class="col-3 w-25"></div>
           <div class="col-3 w-25">
-            <button class="btn btn-secondary" type="button" @click="reset" tabindex="6">Cancel</button>
-            <button class="btn btn-primary" type="button" @click="submit" tabindex="5">OK</button>
+            <button id="resetContactDetail" class="btn btn-secondary" type="button" @click="reset" tabindex="6">Cancel</button>
+            <button id="submitContactDetail" class="btn btn-primary" type="button" @click="submit" tabindex="5">OK</button>
           </div>
         </div>
       </form>

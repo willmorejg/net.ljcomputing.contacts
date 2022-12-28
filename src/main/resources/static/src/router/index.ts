@@ -5,7 +5,7 @@ import ContactsView from "../views/ContactsView.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/view/",
+        path: "/view/home",
         name: "Home",
         component: HomeView,
     },
