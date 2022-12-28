@@ -20,7 +20,12 @@ James G Willmore - LJ Computing - (C) 2022
 */
 package net.ljcomputing.contacts;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import lombok.extern.slf4j.Slf4j;
+import net.ljcomputing.contacts.pom.ContactsView;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -45,7 +50,31 @@ class SeleniumContactsApplicationTests {
         log.debug("url: {}", url);
         driver.manage().window().maximize();
         driver.navigate().to(url);
-        Thread.sleep(6000);
+        ContactsView contactsView = new ContactsView(driver);
+        contactsView.setGivenName("Jimmy");
+        contactsView.setMiddleName("Georgey");
+        contactsView.setSurname("Willmore");
+        contactsView.submitContactDetail();
+
+        if (contactsView.finishedLoading()) {
+            contactsView.setGivenName("Johnny");
+            contactsView.setSurname("Willmore");
+            contactsView.submitContactDetail();
+        }
+
+        if (contactsView.finishedLoading()) {
+            contactsView.setGivenName("Joe");
+            contactsView.setMiddleName("X");
+            contactsView.setSurname("Willmore");
+            contactsView.submitContactDetail();
+        }
+
+        assertEquals("3", contactsView.getPagnationTotalRecords());
+        assertEquals(2, contactsView.getEditIds().size());
+        assertEquals(2, contactsView.getDeleteIds().size());
+        assertEquals(2, contactsView.getPages().size());
+        assertTrue(contactsView.isPreviousPageDisabled());
+        assertFalse(contactsView.isNextPageDisabled());
         driver.quit();
     }
 }
