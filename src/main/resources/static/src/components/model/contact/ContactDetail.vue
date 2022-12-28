@@ -59,6 +59,8 @@ import axios from '@/axios-instance'
 import Contact from '@/model/contact/Contact'
 import ErrorModal from '../../common/ErrorModal.vue';
 import store from '@/store';
+import ContactsServices from '@/service/ContactsService';
+import PageResponse from '@/model/shared/PageResponse';
 
 let errorMsg: string = ""
 let contact: Contact = new Contact("", "", "", "", "");
@@ -129,16 +131,17 @@ export default defineComponent({
     loadContact: function () {
       const focusedElement = this.setGivenNameFocused
       const id = store.getters.contactId;
-      const setContact = this.setContact;
 
-      axios.get('api/contacts/' + id)
-        .then(function (response) {
-          setContact(response.data);
-          store.dispatch('retrieved')
-        })
-        .catch(function (error) {
-          console.log('error', error);
-        });
+      ContactsServices.loadContact(id).finally(() => {
+        console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
+        let response: PageResponse = store.getters.contactsPageResponse
+
+        if(response.hasError()) {
+          // showModal(response.errorMessage as string)
+        } else {
+          this.contact = store.getters.contact
+        }
+      })
 
       focusedElement
     },

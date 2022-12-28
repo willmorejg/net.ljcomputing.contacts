@@ -7,14 +7,12 @@ export default createStore({
         reloadContactsList: false,
         retrieveContact: false,
         errorMessage: null,
-        contactId: "",
     },
     getters: {
         isReload: (state) => state.reloadContactsList,
         isRetrieve: (state) => state.retrieveContact,
         loading: (state) => state.reloadContactsList || state.retrieveContact,
         errorMessage: (state) => state.errorMessage,
-        contactId: (state) => state.contactId,
     },
     mutations: {
         RELOAD(state) {
@@ -28,9 +26,6 @@ export default createStore({
         },
         RETRIEVED(state) {
             state.retrieveContact = false;
-        },
-        CONTACT_ID(state, id) {
-            state.contactId = id;
         },
     },
     actions: {
@@ -50,10 +45,6 @@ export default createStore({
             console.log("RETRIEVED");
             context.commit("CONTACT_ID", "");
             context.commit("RETRIEVED");
-        },
-        contactId(context, id) {
-            console.log("CONTACT_ID");
-            context.commit("CONTACT_ID", id);
         },
     },
     modules: {

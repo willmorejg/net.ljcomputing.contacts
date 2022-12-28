@@ -68,4 +68,28 @@ export default class ContactsServices {
                 store.dispatch("reload");
             });
     }
+
+    public static async loadContact(id: string): Promise<void> {
+        await axios
+            .get("api/contacts/" + id)
+            .then(function (response) {
+                let contact = new Contact(
+                    response.data.givenName,
+                    response.data.middleName,
+                    response.data.surname,
+                    response.data.suffix,
+                    response.data.id
+                );
+                store.dispatch("contact", contact);
+                store.dispatch("retrieved");
+            })
+            .catch(function (error) {
+                console.log("error", error);
+                let pageResponse: PageResponse = new PageResponse(
+                    error.message
+                );
+                store.dispatch("contactsPageResponse", pageResponse);
+                store.dispatch("retrieved");
+            });
+    }
 }

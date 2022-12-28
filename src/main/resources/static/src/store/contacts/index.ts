@@ -1,4 +1,5 @@
 /* James G Willmore - LJ Computing - (C) 2022 */
+import Contact from "@/model/contact/Contact";
 import PageRequest from "@/model/shared/PageRequest";
 import PageResponse from "@/model/shared/PageResponse";
 import { Module } from "vuex";
@@ -8,12 +9,16 @@ const contactsModule: Module<any, any> = {
         contactsPageRequest: new PageRequest(0, 2),
         contactsPageResponse: new PageResponse(),
         contacts: [],
+        contactId: "",
+        contact: new Contact("", "", "", ""),
     },
 
     getters: {
         contactsPageRequest: (state) => state.contactsPageRequest,
         contactsPageResponse: (state) => state.contactsPageResponse,
         contacts: (state) => state.contacts,
+        contactId: (state) => state.contactId,
+        contact: (state) => state.contact,
     },
 
     mutations: {
@@ -25,6 +30,12 @@ const contactsModule: Module<any, any> = {
         },
         CONTACTS(state, contacts) {
             state.contacts = contacts;
+        },
+        CONTACT_ID(state, id) {
+            state.contactId = id;
+        },
+        CONTACT(state, contact) {
+            state.contact = contact;
         },
     },
 
@@ -40,6 +51,14 @@ const contactsModule: Module<any, any> = {
         contacts(context, contacts) {
             console.log("CONTACTS");
             context.commit("CONTACTS", contacts);
+        },
+        contactId(context, id) {
+            console.log("CONTACT_ID");
+            context.commit("CONTACT_ID", id);
+        },
+        contact(context, contact) {
+            console.log("CONTACT");
+            context.commit("CONTACT", contact);
         },
     },
 };
