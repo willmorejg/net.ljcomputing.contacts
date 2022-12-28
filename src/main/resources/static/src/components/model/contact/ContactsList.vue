@@ -25,8 +25,8 @@
                 <td>{{ contact.surname }}</td>
                 <td>{{ contact.suffix }}</td>
                 <td>
-                  <a href="javascript:void(0);" @click="editContact(contact.id)">Edit</a>&nbsp;
-                  <a href="javascript:void(0);" @click="deleteContact(contact.id)">Delete</a>
+                  <a href="javascript:void(0);" v-bind:id="createId('edit', contact.id)" @click="editContact(contact.id)">Edit</a>&nbsp;
+                  <a href="javascript:void(0);" v-bind:id="createId('delete', contact.id)" @click="deleteContact(contact.id)">Delete</a>
                 </td>
               </tr>
             </tbody>
@@ -112,6 +112,9 @@ export default defineComponent({
       if (contactsPagnation) {
         contactsPagnation.setTotalElements(totalElements)
       }
+    },
+    createId: function(prefix: string, id: string) {
+      return prefix + "-" + id
     }
   },
   computed: mapState(['reloadContactsList']),

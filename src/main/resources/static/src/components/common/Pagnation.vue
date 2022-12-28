@@ -11,7 +11,7 @@
         </li>
     </ul>
     <div class="text-center">
-        Page {{ page }} of {{ pages() }} (Total records: {{ totalElements }})
+        Page {{ page }} of {{ pages() }} (Total records: <span id="pagnationTotalRecords">{{ totalElements }}</span>)
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center centered display-1" v-if="showCenterLoadingSpinner">
+    <div id="centerLoadingSpinner" class="d-flex justify-content-center centered display-1" v-if="showCenterLoadingSpinner">
         <strong>Loading...</strong>
         <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
     </div>
