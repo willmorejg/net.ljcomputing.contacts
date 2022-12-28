@@ -77,6 +77,7 @@ export default defineComponent({
   methods: {
     retrieve: function () {
       const showModal = this.showModal
+      const setTotalElements = this.setTotalElements
       let contactsPagnation = this.$refs.contactsPagnation as any
       let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0
       ContactsServices.setActivePage(page)
@@ -86,6 +87,8 @@ export default defineComponent({
 
         if(response.hasError()) {
           showModal(response.errorMessage as string)
+        } else {
+          setTotalElements(store.getters.contactsPageResponse.totalElements)
         }
       })
     },
@@ -116,8 +119,6 @@ export default defineComponent({
     reloadContactsList: function (newValue) {
       if (newValue) {
         this.retrieve()
-      } else {
-        this.setTotalElements(store.getters.contactsPageResponse.totalElements)
       }
     },
   }
