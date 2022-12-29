@@ -70,6 +70,7 @@ class SeleniumContactsApplicationTests {
                 }
             }
 
+            contactsView.takeScreenshot();
             assertEquals(Integer.toString(data().size()), contactsView.getPagnationTotalRecords());
             assertEquals(itemsPerPage, contactsView.getEditIds().size());
             assertEquals(itemsPerPage, contactsView.getDeleteIds().size());
@@ -89,11 +90,13 @@ class SeleniumContactsApplicationTests {
                 deleteLink.click();
 
                 if (contactsView.finishedLoading()) {
+                    contactsView.takeScreenshot();
                     assertEquals(
                             Integer.toString(data().size() - 1),
                             contactsView.getPagnationTotalRecords());
                 }
             } else {
+                contactsView.takeScreenshot();
                 fail("delete link is null");
             }
 
@@ -120,17 +123,20 @@ class SeleniumContactsApplicationTests {
                     editLink.click();
 
                     if (contactsView.finishedLoading()) {
+                        contactsView.takeScreenshot();
                         assertEquals("x", contactsView.getGivenName());
                         assertEquals("x", contactsView.getMiddleName());
                         assertEquals("x", contactsView.getSurname());
                         assertEquals("x", contactsView.getSuffix());
                     }
 
+                    contactsView.takeScreenshot();
                     assertEquals(
                             Integer.toString(data().size() - 1),
                             contactsView.getPagnationTotalRecords());
                 }
             } else {
+                contactsView.takeScreenshot();
                 fail("edit link is null");
             }
         } finally {
