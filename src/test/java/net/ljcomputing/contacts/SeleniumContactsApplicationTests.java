@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.pom.ContactsView;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -34,7 +33,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Slf4j
 class SeleniumContactsApplicationTests {
     @LocalServerPort private int serverPort;
 
@@ -47,7 +45,6 @@ class SeleniumContactsApplicationTests {
 
         WebDriver driver = new ChromeDriver();
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
-        log.debug("url: {}", url);
         driver.manage().window().maximize();
         driver.navigate().to(url);
         ContactsView contactsView = new ContactsView(driver);
