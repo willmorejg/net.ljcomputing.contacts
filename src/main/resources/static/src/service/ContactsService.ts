@@ -92,4 +92,20 @@ export default class ContactsServices {
                 store.dispatch("retrieved");
             });
     }
+
+    public static async persistContact(contact: Contact): Promise<void> {
+        await axios
+            .post("api/contacts", contact)
+            .then(function (response) {
+                store.dispatch("retrieved");
+            })
+            .catch(function (error) {
+                console.log("error", error);
+                let pageResponse: PageResponse = new PageResponse(
+                    error.message
+                );
+                store.dispatch("contactsPageResponse", pageResponse);
+                store.dispatch("retrieved");
+            });
+    }
 }

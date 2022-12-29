@@ -39,8 +39,10 @@
           <div class="col-6 w-50">* indicates required field</div>
           <div class="col-3 w-25"></div>
           <div class="col-3 w-25">
-            <button id="resetContactDetail" class="btn btn-secondary" type="button" @click="reset" tabindex="6">Cancel</button>
-            <button id="submitContactDetail" class="btn btn-primary" type="button" @click="submit" tabindex="5">OK</button>
+            <button id="resetContactDetail" class="btn btn-secondary" type="button" @click="reset"
+              tabindex="6">Cancel</button>
+            <button id="submitContactDetail" class="btn btn-primary" type="button" @click="submit"
+              tabindex="5">OK</button>
           </div>
         </div>
       </form>
@@ -54,7 +56,6 @@ import { defineComponent, ref } from 'vue';
 import { mapState } from 'vuex';
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import axios from '@/axios-instance'
 
 import Contact from '@/model/contact/Contact'
 import ErrorModal from '../../common/ErrorModal.vue';
@@ -96,22 +97,24 @@ export default defineComponent({
       const focusedElement = this.setGivenNameFocused
       const setContact = this.setContact;
       const resetForm = this.reset;
-      const showModal = this.showModal
+      // const showModal = this.showModal
       const v$ = this.v$
       this.v$.$touch();
 
       if (!this.v$.$invalid) {
-        axios.post('api/contacts', this.contact)
-          .then(function (response) {
+        ContactsServices.persistContact(this.contact).finally(() => {
+          console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
+          let response: PageResponse = store.getters.contactsPageResponse
+
+          if (response.hasError()) {
+            // showModal(response.errorMessage as string)
+          } else {
             resetForm;
             store.dispatch('reload')
             setContact({ givenName: "", middleName: "", surname: "", suffix: "", id: "" });
             v$.$reset()
-          })
-          .catch(function (error) {
-            console.log('error', error);
-            showModal(error.message)
-          });
+          }
+        })
       }
 
       focusedElement
@@ -136,7 +139,7 @@ export default defineComponent({
         console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
         let response: PageResponse = store.getters.contactsPageResponse
 
-        if(response.hasError()) {
+        if (response.hasError()) {
           // showModal(response.errorMessage as string)
         } else {
           this.contact = store.getters.contact
