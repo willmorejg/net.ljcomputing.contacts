@@ -44,6 +44,9 @@ public class ContactsView extends BasePom {
     @FindBy(id = "surname")
     private WebElement surname;
 
+    @FindBy(id = "suffix")
+    private WebElement suffix;
+
     @FindBy(id = "submitContactDetail")
     private WebElement submitContactDetail;
 
@@ -80,6 +83,14 @@ public class ContactsView extends BasePom {
 
     public void setSurname(String value) {
         setWebElementValue(surname, value);
+    }
+
+    public String getSuffix() {
+        return getWebElementValue(suffix);
+    }
+
+    public void setSuffix(String value) {
+        setWebElementValue(suffix, value);
     }
 
     public void submitContactDetail() {

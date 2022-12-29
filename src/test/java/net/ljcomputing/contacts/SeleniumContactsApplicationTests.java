@@ -24,6 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.pom.ContactsView;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -35,6 +38,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class SeleniumContactsApplicationTests {
     @LocalServerPort private int serverPort;
+
+    private static final int totalRecords = 12;
+
+    private static final int itemsPerPage = 5;
 
     @Test
     void testSimple() throws Exception {
@@ -48,30 +55,55 @@ class SeleniumContactsApplicationTests {
         driver.manage().window().maximize();
         driver.navigate().to(url);
         ContactsView contactsView = new ContactsView(driver);
-        contactsView.setGivenName("Jimmy");
-        contactsView.setMiddleName("Georgey");
-        contactsView.setSurname("Willmore");
-        contactsView.submitContactDetail();
 
-        if (contactsView.finishedLoading()) {
-            contactsView.setGivenName("Johnny");
-            contactsView.setSurname("Willmore");
-            contactsView.submitContactDetail();
+        for (Contact current : data()) {
+            if (contactsView.finishedLoading()) {
+                contactsView.setGivenName(current.getGivenName());
+                contactsView.setMiddleName(current.getMiddleName());
+                contactsView.setSurname(current.getSurname());
+                contactsView.setSuffix(current.getSuffix());
+                contactsView.submitContactDetail();
+            }
         }
 
-        if (contactsView.finishedLoading()) {
-            contactsView.setGivenName("Joe");
-            contactsView.setMiddleName("X");
-            contactsView.setSurname("Willmore");
-            contactsView.submitContactDetail();
-        }
-
-        assertEquals("3", contactsView.getPagnationTotalRecords());
-        assertEquals(2, contactsView.getEditIds().size());
-        assertEquals(2, contactsView.getDeleteIds().size());
-        assertEquals(2, contactsView.getPages().size());
+        assertEquals(Integer.toString(data().size()), contactsView.getPagnationTotalRecords());
+        assertEquals(itemsPerPage, contactsView.getEditIds().size());
+        assertEquals(itemsPerPage, contactsView.getDeleteIds().size());
+        assertEquals(totalPages(), contactsView.getPages().size());
         assertTrue(contactsView.isPreviousPageDisabled());
         assertFalse(contactsView.isNextPageDisabled());
         driver.quit();
+    }
+
+    private static List<Contact> data() {
+        final List<Contact> contacts = new ArrayList<>();
+        Contact current = null;
+
+        for (int i = 0; i < totalRecords; i++) {
+            current = new Contact();
+            current.setGivenName(i + "GivenName");
+            current.setMiddleName(i + "MiddleName");
+            current.setSurname(i + "Surname");
+            current.setSuffix(i + "Suffix");
+            contacts.add(current);
+        }
+
+        return contacts;
+    }
+
+    private static int totalPages() {
+        double l = totalRecords;
+        double i = itemsPerPage;
+        int value = 1;
+
+        if (l != 0) {
+            value = (int) Math.ceil(l / i);
+
+            if (value == 0) {
+                value = 1;
+            }
+        }
+
+        return value;
     }
 }

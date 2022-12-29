@@ -55,7 +55,6 @@ import store from '@/store';
 import PageResponse from '@/model/shared/PageResponse';
 
 let contacts: Contact[] = [{}];
-let itemsPerPage: number = 2;
 
 export default defineComponent({
   name: 'ContactsList',
@@ -69,7 +68,6 @@ export default defineComponent({
   },
   data() {
     return {
-      itemsPerPage,
       contacts,
       store,
     };

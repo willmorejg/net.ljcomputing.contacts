@@ -6,7 +6,7 @@ import { Module } from "vuex";
 
 const contactsModule: Module<any, any> = {
     state: {
-        contactsPageRequest: new PageRequest(0, 2),
+        contactsPageRequest: new PageRequest(0, 5),
         contactsPageResponse: new PageResponse(),
         contacts: [],
         contactId: "",
