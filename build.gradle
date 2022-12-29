@@ -116,7 +116,7 @@ javadoc {
 
 doxygen {
   source 'src/main/java'
-  project_name 'Rules Spike'
+  project_name 'Contacts'
   generate_latex true
   generate_html true
   optimize_output_java true
