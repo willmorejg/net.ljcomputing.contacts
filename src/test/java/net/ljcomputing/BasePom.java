@@ -34,8 +34,7 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 public abstract class BasePom {
     private String baseScreenshotDirectory =
-            Path.of(System.getProperty("user.dir"), "src", "test", "resources", "screenshots")
-                    .toString();
+            Path.of(System.getProperty("user.dir"), "screenshots").toString();
     private WebDriver driver;
 
     public BasePom(final WebDriver driver) {

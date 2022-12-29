@@ -46,4 +46,4 @@ coverage
 ### Misc ###
 logs
 *.log
-**/src/test/resources/screenshots
+**/screenshots
