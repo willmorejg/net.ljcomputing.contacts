@@ -118,27 +118,30 @@ class SeleniumContactsApplicationTests {
                     contactsView.setSuffix("x");
                     contactsView.submitContactDetail();
                 }
-
-                if (contactsView.finishedLoading()) {
-                    editLink.click();
-
-                    if (contactsView.finishedLoading()) {
-                        contactsView.takeScreenshot();
-                        assertEquals("x", contactsView.getGivenName());
-                        assertEquals("x", contactsView.getMiddleName());
-                        assertEquals("x", contactsView.getSurname());
-                        assertEquals("x", contactsView.getSuffix());
-                    }
-
-                    contactsView.takeScreenshot();
-                    assertEquals(
-                            Integer.toString(data().size() - 1),
-                            contactsView.getPagnationTotalRecords());
-                }
             } else {
                 contactsView.takeScreenshot();
                 fail("edit link is null");
             }
+
+            editLink = null;
+            while (editLink == null) {
+                if (contactsView.finishedLoading()) {
+                    editLink = contactsView.getIdAction(ContactsView.Action.EDIT, editId);
+                }
+
+                contactsView.takeScreenshot();
+                contactsView.getNextPage().click();
+            }
+
+            editLink.click();
+            assertEquals("x", contactsView.getGivenName());
+            assertEquals("x", contactsView.getMiddleName());
+            assertEquals("x", contactsView.getSurname());
+            assertEquals("x", contactsView.getSuffix());
+
+            contactsView.takeScreenshot();
+            assertEquals(
+                    Integer.toString(data().size() - 1), contactsView.getPagnationTotalRecords());
         } finally {
             driver.quit();
         }

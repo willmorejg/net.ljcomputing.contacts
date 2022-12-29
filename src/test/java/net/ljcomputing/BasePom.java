@@ -28,6 +28,8 @@ import javax.imageio.ImageIO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
@@ -35,6 +37,7 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 public abstract class BasePom {
     private String baseScreenshotDirectory =
             Path.of(System.getProperty("user.dir"), "screenshots").toString();
+    protected static final Logger log = LoggerFactory.getLogger(BasePom.class);
     private WebDriver driver;
 
     public BasePom(final WebDriver driver) {
@@ -63,7 +66,6 @@ public abstract class BasePom {
     public void takeScreenshot() {
         String filename = new Date().getTime() + ".jpg";
         String filepath = baseScreenshotDirectory + File.separator + filename;
-        System.out.println("filepath = " + filepath);
         Screenshot screenshot =
                 new AShot()
                         .shootingStrategy(ShootingStrategies.viewportPasting(1000))
@@ -71,8 +73,7 @@ public abstract class BasePom {
         try {
             ImageIO.write(screenshot.getImage(), "jpg", new File(filepath));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Failed to create screenshot [{}]:", filepath, e);
         }
     }
 }

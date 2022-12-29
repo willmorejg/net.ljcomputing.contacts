@@ -66,6 +66,8 @@
     <logger name="org.mongodb" level="ERROR" />
     <logger name="net.ljcomputing" level="DEBUG" />
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" />
+    <logger name="io.netty" level="WARN" />
+    <logger name="org.asynchttpclient.netty" level="WARN" />
 
     <root>
         <level value="DEBUG" />
