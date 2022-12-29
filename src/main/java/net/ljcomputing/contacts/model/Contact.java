@@ -73,12 +73,4 @@ public class Contact {
     @Column(name = "suffix", length = 100)
     @Size(max = 100)
     private String suffix;
-
-    /** Trim the values of this Contact. */
-    public void trimValues() {
-        this.givenName = this.givenName.trim();
-        this.middleName = this.middleName.trim();
-        this.surname = this.surname.trim();
-        this.suffix = this.suffix.trim();
-    }
 }
