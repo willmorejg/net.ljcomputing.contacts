@@ -23,6 +23,7 @@ package net.ljcomputing.contacts;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.pom.ContactsView;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -54,25 +56,86 @@ class SeleniumContactsApplicationTests {
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
         driver.manage().window().maximize();
         driver.navigate().to(url);
-        ContactsView contactsView = new ContactsView(driver);
 
-        for (Contact current : data()) {
-            if (contactsView.finishedLoading()) {
-                contactsView.setGivenName(current.getGivenName());
-                contactsView.setMiddleName(current.getMiddleName());
-                contactsView.setSurname(current.getSurname());
-                contactsView.setSuffix(current.getSuffix());
-                contactsView.submitContactDetail();
+        try {
+            ContactsView contactsView = new ContactsView(driver);
+
+            for (Contact current : data()) {
+                if (contactsView.finishedLoading()) {
+                    contactsView.setGivenName(current.getGivenName());
+                    contactsView.setMiddleName(current.getMiddleName());
+                    contactsView.setSurname(current.getSurname());
+                    contactsView.setSuffix(current.getSuffix());
+                    contactsView.submitContactDetail();
+                }
             }
-        }
 
-        assertEquals(Integer.toString(data().size()), contactsView.getPagnationTotalRecords());
-        assertEquals(itemsPerPage, contactsView.getEditIds().size());
-        assertEquals(itemsPerPage, contactsView.getDeleteIds().size());
-        assertEquals(totalPages(), contactsView.getPages().size());
-        assertTrue(contactsView.isPreviousPageDisabled());
-        assertFalse(contactsView.isNextPageDisabled());
-        driver.quit();
+            assertEquals(Integer.toString(data().size()), contactsView.getPagnationTotalRecords());
+            assertEquals(itemsPerPage, contactsView.getEditIds().size());
+            assertEquals(itemsPerPage, contactsView.getDeleteIds().size());
+            assertEquals(totalPages(), contactsView.getPages().size());
+            assertTrue(contactsView.isPreviousPageDisabled());
+            assertFalse(contactsView.isNextPageDisabled());
+
+            String deleteId =
+                    contactsView
+                            .getDeleteIds()
+                            .get(0)
+                            .getAttribute("id")
+                            .replace(ContactsView.Action.DELETE.idPrefix(), "");
+            WebElement deleteLink = contactsView.getIdAction(ContactsView.Action.DELETE, deleteId);
+
+            if (deleteLink != null) {
+                deleteLink.click();
+
+                if (contactsView.finishedLoading()) {
+                    assertEquals(
+                            Integer.toString(data().size() - 1),
+                            contactsView.getPagnationTotalRecords());
+                }
+            } else {
+                fail("delete link is null");
+            }
+
+            String editId =
+                    contactsView
+                            .getEditIds()
+                            .get(0)
+                            .getAttribute("id")
+                            .replace(ContactsView.Action.EDIT.idPrefix(), "");
+            WebElement editLink = contactsView.getIdAction(ContactsView.Action.EDIT, editId);
+
+            if (editLink != null) {
+                editLink.click();
+
+                if (contactsView.finishedLoading()) {
+                    contactsView.setGivenName("x");
+                    contactsView.setMiddleName("x");
+                    contactsView.setSurname("x");
+                    contactsView.setSuffix("x");
+                    contactsView.submitContactDetail();
+                }
+
+                if (contactsView.finishedLoading()) {
+                    editLink.click();
+
+                    if (contactsView.finishedLoading()) {
+                        assertEquals("x", contactsView.getGivenName());
+                        assertEquals("x", contactsView.getMiddleName());
+                        assertEquals("x", contactsView.getSurname());
+                        assertEquals("x", contactsView.getSuffix());
+                    }
+
+                    assertEquals(
+                            Integer.toString(data().size() - 1),
+                            contactsView.getPagnationTotalRecords());
+                }
+            } else {
+                fail("edit link is null");
+            }
+        } finally {
+            driver.quit();
+        }
     }
 
     private static List<Contact> data() {

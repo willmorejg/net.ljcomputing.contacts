@@ -35,6 +35,11 @@ public abstract class BasePom {
         return driver;
     }
 
+    protected void clearWebElementValue(final WebElement element) {
+        new Actions(driver).moveToElement(element).perform();
+        element.clear();
+    }
+
     protected String getWebElementValue(final WebElement element) {
         new Actions(driver).moveToElement(element).perform();
         return element.getAttribute("value");

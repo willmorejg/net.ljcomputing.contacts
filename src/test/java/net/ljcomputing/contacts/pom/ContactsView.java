@@ -35,6 +35,21 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
 public class ContactsView extends BasePom {
+    public static enum Action {
+        EDIT("edit-"),
+        DELETE("delete-");
+
+        private String idPrefix;
+
+        private Action(String idPrefix) {
+            this.idPrefix = idPrefix;
+        }
+
+        public String idPrefix() {
+            return idPrefix;
+        }
+    };
+
     @FindBy(id = "givenName")
     private WebElement givenName;
 
@@ -66,6 +81,7 @@ public class ContactsView extends BasePom {
     }
 
     public void setGivenName(String value) {
+        clearWebElementValue(givenName);
         setWebElementValue(givenName, value);
     }
 
@@ -74,6 +90,7 @@ public class ContactsView extends BasePom {
     }
 
     public void setMiddleName(String value) {
+        clearWebElementValue(middleName);
         setWebElementValue(middleName, value);
     }
 
@@ -82,6 +99,7 @@ public class ContactsView extends BasePom {
     }
 
     public void setSurname(String value) {
+        clearWebElementValue(surname);
         setWebElementValue(surname, value);
     }
 
@@ -90,6 +108,7 @@ public class ContactsView extends BasePom {
     }
 
     public void setSuffix(String value) {
+        clearWebElementValue(suffix);
         setWebElementValue(suffix, value);
     }
 
@@ -122,8 +141,8 @@ public class ContactsView extends BasePom {
     public boolean finishedLoading() {
         try {
             FluentWait<WebDriver> wait = new FluentWait<WebDriver>(getDriver());
-            wait.withTimeout(Duration.ofSeconds(2L));
-            wait.pollingEvery(Duration.ofNanos(500L));
+            wait.withTimeout(Duration.ofSeconds(5L));
+            wait.pollingEvery(Duration.ofNanos(1000L));
             wait.ignoring(NoSuchElementException.class);
             wait.until(ExpectedConditions.invisibilityOf(centerLoadingSpinner));
         } catch (TimeoutException e) {
@@ -134,11 +153,28 @@ public class ContactsView extends BasePom {
     }
 
     public List<WebElement> getEditIds() {
-        return getDriver().findElements(By.xpath("//*[contains(@id, 'edit-')]"));
+        return getDriver()
+                .findElements(By.xpath("//*[contains(@id, '" + Action.EDIT.idPrefix + "')]"));
     }
 
     public List<WebElement> getDeleteIds() {
-        return getDriver().findElements(By.xpath("//*[contains(@id, 'delete-')]"));
+        return getDriver()
+                .findElements(By.xpath("//*[contains(@id, '" + Action.DELETE.idPrefix + "')]"));
+    }
+
+    public WebElement getIdAction(Action action, String id) {
+        WebElement value = null;
+        List<WebElement> elements = action.equals(Action.EDIT) ? getEditIds() : getDeleteIds();
+
+        for (WebElement current : elements) {
+            String currentId = current.getAttribute("id").replace(action.idPrefix, "");
+
+            if (id.equals(currentId)) {
+                value = current;
+            }
+        }
+
+        return value;
     }
 
     public List<WebElement> getPageLinks() {
