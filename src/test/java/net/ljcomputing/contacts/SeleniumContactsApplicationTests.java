@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -52,9 +54,19 @@ class SeleniumContactsApplicationTests {
                 "webdriver.chrome.driver",
                 wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver");
 
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments(
+                "--headless",
+                "--disable-gpu",
+                "--window-size=1920,1200",
+                "--ignore-certificate-errors",
+                "--disable-extensions",
+                "--no-sandbox",
+                "--disable-dev-shm-usage");
+        WebDriver driver = new ChromeDriver(options);
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(750L));
         driver.navigate().to(url);
 
         try {
@@ -111,27 +123,27 @@ class SeleniumContactsApplicationTests {
             if (editLink != null) {
                 editLink.click();
 
-                if (contactsView.finishedLoading()) {
-                    contactsView.setGivenName("x");
-                    contactsView.setMiddleName("x");
-                    contactsView.setSurname("x");
-                    contactsView.setSuffix("x");
-                    contactsView.submitContactDetail();
-                }
+                // if (contactsView.finishedLoading()) {
+                contactsView.setGivenName("x");
+                contactsView.setMiddleName("x");
+                contactsView.setSurname("x");
+                contactsView.setSuffix("x");
+                contactsView.submitContactDetail();
+                // }
             } else {
                 contactsView.takeScreenshot();
                 fail("edit link is null");
             }
 
             editLink = null;
-            while (editLink == null) {
+            do {
                 if (contactsView.finishedLoading()) {
                     editLink = contactsView.getIdAction(ContactsView.Action.EDIT, editId);
                 }
 
-                contactsView.takeScreenshot();
                 contactsView.getNextPage().click();
-            }
+                contactsView.takeScreenshot();
+            } while (editLink == null);
 
             editLink.click();
             assertEquals("x", contactsView.getGivenName());
