@@ -55,14 +55,14 @@ class SeleniumContactsApplicationTests {
                 wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments(
-                "--headless",
-                "--disable-gpu",
-                "--window-size=1920,1200",
-                "--ignore-certificate-errors",
-                "--disable-extensions",
-                "--no-sandbox",
-                "--disable-dev-shm-usage");
+        options.addArguments("start-maximized"); // open Browser in maximized mode
+        options.addArguments("disable-infobars"); // disabling infobars
+        options.addArguments("--window-size=1920,1080"); // set window size
+        options.addArguments("--headless"); // run headless
+        options.addArguments("--disable-extensions"); // disabling extensions
+        options.addArguments("--disable-gpu"); // applicable to windows os only
+        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--no-sandbox"); // Bypass OS security model
         WebDriver driver = new ChromeDriver(options);
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
         driver.manage().window().maximize();
