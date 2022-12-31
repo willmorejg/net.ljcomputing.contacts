@@ -25,16 +25,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.pom.ContactsView;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -42,18 +49,32 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class SeleniumContactsApplicationTests {
     @LocalServerPort private int serverPort;
-
+    private static ChromeDriverService service;
+    private WebDriver driver;
     private static final int totalRecords = 12;
-
     private static final int itemsPerPage = 5;
 
-    @Test
-    void testSimple() throws Exception {
+    @BeforeAll
+    public static void createAndStartService() throws IOException {
         String wd = System.getProperty("user.dir");
-        System.setProperty(
-                "webdriver.chrome.driver",
-                wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver");
+        String driverPath =
+                wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver";
+        service =
+                new ChromeDriverService.Builder()
+                        .usingDriverExecutable(new File(driverPath))
+                        .usingAnyFreePort()
+                        .build();
 
+        service.start();
+    }
+
+    @AfterAll
+    public static void stopService() {
+        service.stop();
+    }
+
+    @BeforeEach
+    public void createDriver() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("disable-infobars"); // disabling infobars
@@ -64,7 +85,16 @@ class SeleniumContactsApplicationTests {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         // options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--remote-debugging-port=9222"); // add remote debugging port
-        WebDriver driver = new ChromeDriver(options);
+        driver = new RemoteWebDriver(service.getUrl(), options);
+    }
+
+    @AfterEach
+    public void quitDriver() {
+        driver.quit();
+    }
+
+    @Test
+    void testSimple() throws Exception {
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(750L));
