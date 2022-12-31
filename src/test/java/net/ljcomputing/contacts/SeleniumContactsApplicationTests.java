@@ -86,6 +86,7 @@ class SeleniumContactsApplicationTests {
         options.addArguments("--headless"); // run headless
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--no-sandbox"); // Bypass OS security model
         try {
             driver = new RemoteWebDriver(service.getUrl(), options);
         } catch (Exception e) {
