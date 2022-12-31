@@ -42,12 +42,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class SeleniumContactsApplicationTests {
+    private static final Logger log =
+            LoggerFactory.getLogger(SeleniumContactsApplicationTests.class);
     @LocalServerPort private int serverPort;
     private static ChromeDriverService service;
     private WebDriver driver;
@@ -85,7 +89,11 @@ class SeleniumContactsApplicationTests {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         // options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--remote-debugging-port=9222"); // add remote debugging port
-        driver = new RemoteWebDriver(service.getUrl(), options);
+        try {
+            driver = new RemoteWebDriver(service.getUrl(), options);
+        } catch (Exception e) {
+            log.error("Failed to create driver:", e);
+        }
     }
 
     @AfterEach
