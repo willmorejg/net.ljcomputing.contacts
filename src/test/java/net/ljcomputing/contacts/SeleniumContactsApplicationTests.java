@@ -63,7 +63,6 @@ class SeleniumContactsApplicationTests {
         String driverPath = "/opt/webdrivers/chromedriver";
         System.setProperty("webdriver.chrome.driver", driverPath);
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("/usr/bin/google-chrome");
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--window-size=1920,1080"); // set window size
         options.addArguments("--headless"); // run headless
