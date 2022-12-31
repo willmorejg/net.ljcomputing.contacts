@@ -62,7 +62,7 @@ class SeleniumContactsApplicationTests {
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        options.addArguments("--no-sandbox"); // Bypass OS security model
+        // options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--remote-debugging-port=9222"); // add remote debugging port
         WebDriver driver = new ChromeDriver(options);
         String url = "http://localhost:" + serverPort + "/#/view/contacts";
