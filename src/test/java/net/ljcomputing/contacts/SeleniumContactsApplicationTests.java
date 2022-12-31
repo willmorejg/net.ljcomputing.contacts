@@ -60,9 +60,10 @@ class SeleniumContactsApplicationTests {
 
     @BeforeAll
     public static void createAndStartService() throws IOException {
-        String wd = System.getProperty("user.dir");
-        String driverPath =
-                wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver";
+        // String wd = System.getProperty("user.dir");
+        // String driverPath =
+        //         wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver";
+        String driverPath = "/opt/webdrivers/chromedriver";
         service =
                 new ChromeDriverService.Builder()
                         .usingDriverExecutable(new File(driverPath))
