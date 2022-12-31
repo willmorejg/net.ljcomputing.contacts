@@ -25,26 +25,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.pom.ContactsView;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,15 +57,12 @@ class SeleniumContactsApplicationTests {
         String driverPath = "/opt/webdrivers/msedgedriver";
         System.setProperty("webdriver.edge.driver", driverPath);
         EdgeOptions options = new EdgeOptions();
-        // ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--window-size=1920,1080"); // set window size
         options.addArguments("--headless"); // run headless
-        // options.addArguments("--disable-extensions"); // disabling extensions
-        // options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        // options.addArguments("--no-sandbox"); // Bypass OS security model
+        options.addArguments("--disable-extensions"); // disabling extensions
+        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         try {
-            // driver = new ChromeDriver(options);
             driver = new EdgeDriver(options);
         } catch (Exception e) {
             log.error("Failed to create driver:", e);
