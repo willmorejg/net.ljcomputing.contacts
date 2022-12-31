@@ -39,6 +39,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -53,35 +54,16 @@ class SeleniumContactsApplicationTests {
     private static final Logger log =
             LoggerFactory.getLogger(SeleniumContactsApplicationTests.class);
     @LocalServerPort private int serverPort;
-    private static ChromeDriverService service;
     private WebDriver driver;
     private static final int totalRecords = 12;
     private static final int itemsPerPage = 5;
 
-    @BeforeAll
-    public static void createAndStartService() throws IOException {
-        // String wd = System.getProperty("user.dir");
-        // String driverPath =
-        //         wd + "/src/main/resources/static/node_modules/chromedriver/bin/chromedriver";
-        String driverPath = "/opt/webdrivers/chromedriver";
-        service =
-                new ChromeDriverService.Builder()
-                        .usingDriverExecutable(new File(driverPath))
-                        .usingAnyFreePort()
-                        .build();
-
-        service.start();
-    }
-
-    @AfterAll
-    public static void stopService() {
-        service.stop();
-    }
-
     @BeforeEach
     public void createDriver() {
+        String driverPath = "/opt/webdrivers/chromedriver";
+        System.setProperty("webdriver.chrome.driver", driverPath);
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("/usr/bin/google-chrome-stable");
+        options.setBinary("/usr/bin/google-chrome");
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--window-size=1920,1080"); // set window size
         options.addArguments("--headless"); // run headless
@@ -89,7 +71,7 @@ class SeleniumContactsApplicationTests {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
         try {
-            driver = new RemoteWebDriver(service.getUrl(), options);
+            driver = new ChromeDriver(options);
         } catch (Exception e) {
             log.error("Failed to create driver:", e);
         }
