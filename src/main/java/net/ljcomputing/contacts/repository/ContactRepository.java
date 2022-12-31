@@ -22,7 +22,7 @@ package net.ljcomputing.contacts.repository;
 
 import java.util.UUID;
 import net.ljcomputing.contacts.model.Contact;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /** Contact data repository. */
-public interface ContactRepository extends JpaRepository<Contact, UUID> {}
+public interface ContactRepository extends PagingAndSortingRepository<Contact, UUID> {}

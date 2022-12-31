@@ -21,12 +21,14 @@ James G Willmore - LJ Computing - (C) 2022
 package net.ljcomputing.contacts.controller;
 
 import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 /** Contact Controller. */
 @RestController
 @RequestMapping(value = "api/contacts")
+@Slf4j
 public class ContactController {
 
     /** Contact Service. */
@@ -55,8 +58,16 @@ public class ContactController {
     @ResponseStatus(HttpStatus.OK)
     public Page<Contact> getContacts(
             @RequestParam(defaultValue = "0", required = false) Integer page,
-            @RequestParam(defaultValue = "5", required = false) Integer pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
+            @RequestParam(defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(defaultValue = "ASC", required = false) String direction,
+            @RequestParam(defaultValue = "surname", required = false) String field) {
+        log.debug(
+                "page: {}, pageSize: {}, field: {}, direction: {}",
+                page,
+                pageSize,
+                field,
+                direction);
+        Pageable pageable = PageRequest.of(page, pageSize, Direction.valueOf(direction), field);
         return contactService.retrievePage(pageable);
     }
 

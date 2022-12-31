@@ -14,6 +14,22 @@ export default class ContactsServices {
         store.dispatch("contactsPageRequest", pageRequest);
     }
 
+    public static setField(field: string): void {
+        let pageRequest: PageRequest = store.getters
+            .contactsPageRequest as PageRequest;
+
+        pageRequest.field = field;
+        store.dispatch("contactsPageRequest", pageRequest);
+    }
+
+    public static setDirection(direction: string): void {
+        let pageRequest: PageRequest = store.getters
+            .contactsPageRequest as PageRequest;
+
+        pageRequest.direction = direction;
+        store.dispatch("contactsPageRequest", pageRequest);
+    }
+
     public static async loadContacts(): Promise<void> {
         store.dispatch("reload");
         let pageRequest: PageRequest = store.getters
@@ -27,6 +43,8 @@ export default class ContactsServices {
                 params: {
                     page: pageRequest.page,
                     pageSize: pageRequest.itemsPerPage,
+                    field: pageRequest.field,
+                    direction: pageRequest.direction,
                 },
             })
             .then(function (response) {

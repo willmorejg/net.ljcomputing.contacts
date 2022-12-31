@@ -7,4 +7,21 @@ import store from "./store";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-createApp(App).use(store).use(router).mount("#app");
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    faSort,
+    faSortUp,
+    faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(faSort);
+library.add(faSortUp);
+library.add(faSortDown);
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+createApp(App)
+    .use(store)
+    .use(router)
+    .component("font-awesome-icon", FontAwesomeIcon)
+    .mount("#app");

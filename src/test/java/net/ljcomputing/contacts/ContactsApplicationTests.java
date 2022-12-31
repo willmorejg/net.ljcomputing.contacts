@@ -25,14 +25,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.service.ContactService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 
 /** Contacts Application Unit Tests. */
 @SpringBootTest
+@Slf4j
 class ContactsApplicationTests {
     /** Contact Service. */
     @Autowired private ContactService contactService;
@@ -41,10 +46,10 @@ class ContactsApplicationTests {
     @Test
     void repositoryTest() {
         List<Contact> contacts = new ArrayList<>();
-        contacts.add(new Contact(null, "Ab", "ab", "Bb", "bb"));
-        contacts.add(new Contact(null, "Ac", "ac", "Bc", "bc"));
-        contacts.add(new Contact(null, "Ad", "ad", "Bd", "bd"));
-        contacts.add(new Contact(null, "A", "a", "B", "b"));
+        contacts.add(new Contact(null, "Ab", "ab", "4Bb", "bb"));
+        contacts.add(new Contact(null, "Ac", "ac", "2Bc", "bc"));
+        contacts.add(new Contact(null, "Ad", "ad", "1Bd", "bd"));
+        contacts.add(new Contact(null, "A", "a", "3B", "b"));
 
         for (Contact contact : contacts) {
             contactService.persist(contact);
@@ -52,7 +57,15 @@ class ContactsApplicationTests {
         }
 
         contacts = contactService.retrieveAll();
-
         assertEquals(4, contacts.size());
+
+        for (Contact current : contactService.retrieveAll()) {
+            log.debug("  current: {}", current);
+        }
+
+        Pageable pageable = PageRequest.of(0, 4, Direction.valueOf("DESC"), "surname");
+        for (Contact current : contactService.retrievePage(pageable).toList()) {
+            log.debug("  current: {}", current);
+        }
     }
 }
