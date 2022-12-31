@@ -82,14 +82,10 @@ class SeleniumContactsApplicationTests {
     public void createDriver() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        options.addArguments("disable-infobars"); // disabling infobars
         options.addArguments("--window-size=1920,1080"); // set window size
         options.addArguments("--headless"); // run headless
         options.addArguments("--disable-extensions"); // disabling extensions
-        options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        // options.addArguments("--no-sandbox"); // Bypass OS security model
-        options.addArguments("--remote-debugging-port=9222"); // add remote debugging port
         try {
             driver = new RemoteWebDriver(service.getUrl(), options);
         } catch (Exception e) {
