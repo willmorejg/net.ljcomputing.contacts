@@ -42,6 +42,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,17 +62,19 @@ class SeleniumContactsApplicationTests {
 
     @BeforeEach
     public void createDriver() {
-        String driverPath = "/opt/webdrivers/chromedriver";
-        System.setProperty("webdriver.chrome.driver", driverPath);
-        ChromeOptions options = new ChromeOptions();
+        String driverPath = "/opt/webdrivers/msedgedriver";
+        System.setProperty("webdriver.edge.driver", driverPath);
+        EdgeOptions options = new EdgeOptions();
+        // ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--window-size=1920,1080"); // set window size
         options.addArguments("--headless"); // run headless
-        options.addArguments("--disable-extensions"); // disabling extensions
-        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        options.addArguments("--no-sandbox"); // Bypass OS security model
+        // options.addArguments("--disable-extensions"); // disabling extensions
+        // options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        // options.addArguments("--no-sandbox"); // Bypass OS security model
         try {
-            driver = new ChromeDriver(options);
+            // driver = new ChromeDriver(options);
+            driver = new EdgeDriver(options);
         } catch (Exception e) {
             log.error("Failed to create driver:", e);
         }
