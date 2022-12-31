@@ -35,6 +35,7 @@ import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 public abstract class BasePom {
+    private boolean canSaveScreenshots = false;
     private String baseScreenshotDirectory =
             Path.of(System.getProperty("user.dir"), "screenshots").toString();
     protected static final Logger log = LoggerFactory.getLogger(BasePom.class);
@@ -42,6 +43,17 @@ public abstract class BasePom {
 
     public BasePom(final WebDriver driver) {
         this.driver = driver;
+        setupScreenshotDirectory();
+    }
+
+    private void setupScreenshotDirectory() {
+        File directory = new File(baseScreenshotDirectory);
+
+        if (!directory.exists() || !directory.canWrite()) {
+            directory.mkdirs();
+        }
+
+        canSaveScreenshots = directory.exists() && directory.canWrite();
     }
 
     protected WebDriver getDriver() {
@@ -64,16 +76,18 @@ public abstract class BasePom {
     }
 
     public void takeScreenshot() {
-        String filename = new Date().getTime() + ".jpg";
-        String filepath = baseScreenshotDirectory + File.separator + filename;
-        Screenshot screenshot =
-                new AShot()
-                        .shootingStrategy(ShootingStrategies.viewportPasting(1000))
-                        .takeScreenshot(driver);
-        try {
-            ImageIO.write(screenshot.getImage(), "jpg", new File(filepath));
-        } catch (IOException e) {
-            log.error("Failed to create screenshot [{}]:", filepath, e);
+        if (canSaveScreenshots) {
+            String filename = new Date().getTime() + ".jpg";
+            String filepath = baseScreenshotDirectory + File.separator + filename;
+            Screenshot screenshot =
+                    new AShot()
+                            .shootingStrategy(ShootingStrategies.viewportPasting(1000))
+                            .takeScreenshot(driver);
+            try {
+                ImageIO.write(screenshot.getImage(), "jpg", new File(filepath));
+            } catch (IOException e) {
+                log.error("Failed to create screenshot [{}]:", filepath, e);
+            }
         }
     }
 }
