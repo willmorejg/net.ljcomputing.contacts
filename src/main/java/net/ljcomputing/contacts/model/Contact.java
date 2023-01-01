@@ -16,7 +16,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 
-James G Willmore - LJ Computing - (C) 2022
+James G Willmore - LJ Computing - (C) 2022-2023
 */
 package net.ljcomputing.contacts.model;
 

@@ -16,7 +16,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 
-James G Willmore - LJ Computing - (C) 2022
+James G Willmore - LJ Computing - (C) 2022-2023
 */
 package net.ljcomputing.contacts;
 
@@ -59,7 +59,7 @@ class SeleniumContactsApplicationTests {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--window-size=1920,1080"); // set window size
-        // options.addArguments("--headless"); // run headless
+        options.addArguments("--headless"); // run headless
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         try {

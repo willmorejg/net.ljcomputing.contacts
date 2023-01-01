@@ -16,7 +16,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 
-James G Willmore - LJ Computing - (C) 2022
+James G Willmore - LJ Computing - (C) 2022-2023
 */
 package net.ljcomputing.contacts;
 
@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.service.ContactService;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,6 @@ import org.springframework.data.domain.Sort.Direction;
 
 /** Contacts Application Unit Tests. */
 @SpringBootTest
-@Slf4j
 class ContactsApplicationTests {
     /** Contact Service. */
     @Autowired private ContactService contactService;
@@ -59,13 +57,7 @@ class ContactsApplicationTests {
         contacts = contactService.retrieveAll();
         assertEquals(4, contacts.size());
 
-        for (Contact current : contactService.retrieveAll()) {
-            log.debug("  current: {}", current);
-        }
-
         Pageable pageable = PageRequest.of(0, 4, Direction.valueOf("DESC"), "surname");
-        for (Contact current : contactService.retrievePage(pageable).toList()) {
-            log.debug("  current: {}", current);
-        }
+        assertEquals(4, contactService.retrievePage(pageable).toList().size());
     }
 }
