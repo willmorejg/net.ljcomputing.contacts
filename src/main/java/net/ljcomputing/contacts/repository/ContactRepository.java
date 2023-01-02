@@ -22,7 +22,12 @@ package net.ljcomputing.contacts.repository;
 
 import java.util.UUID;
 import net.ljcomputing.contacts.model.Contact;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /** Contact data repository. */
-public interface ContactRepository extends PagingAndSortingRepository<Contact, UUID> {}
+public interface ContactRepository extends PagingAndSortingRepository<Contact, UUID> {
+    Page<Contact> findBySurnameContainsIgnoreCaseOrGivenNameContainsIgnoreCase(
+            Pageable pageable, String givenName, String surname);
+}

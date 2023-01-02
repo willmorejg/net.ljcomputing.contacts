@@ -51,6 +51,16 @@ public interface ContactService {
     Page<Contact> retrievePage(Pageable pageable);
 
     /**
+     * Retrieve Page of Contacts.
+     *
+     * @param pageable
+     * @param filterField
+     * @param filterValue
+     * @return
+     */
+    Page<Contact> retrievePage(Pageable pageable, String filterField, String filterValue);
+
+    /**
      * Retrieve Contact by given id.
      *
      * @param id

@@ -135,13 +135,11 @@ class SeleniumContactsApplicationTests {
             if (editLink != null) {
                 editLink.click();
 
-                // if (contactsView.finishedLoading()) {
                 contactsView.setGivenName("x");
                 contactsView.setMiddleName("x");
                 contactsView.setSurname("x");
                 contactsView.setSuffix("x");
                 contactsView.submitContactDetail();
-                // }
             } else {
                 contactsView.takeScreenshot();
                 fail("edit link is null");

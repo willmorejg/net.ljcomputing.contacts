@@ -60,7 +60,9 @@ public class ContactController {
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "5", required = false) Integer pageSize,
             @RequestParam(defaultValue = "ASC", required = false) String direction,
-            @RequestParam(defaultValue = "surname", required = false) String field) {
+            @RequestParam(defaultValue = "surname", required = false) String field,
+            @RequestParam(defaultValue = "", required = false) String filterField,
+            @RequestParam(defaultValue = "", required = false) String filterValue) {
         log.debug(
                 "page: {}, pageSize: {}, field: {}, direction: {}",
                 page,
@@ -68,7 +70,7 @@ public class ContactController {
                 field,
                 direction);
         Pageable pageable = PageRequest.of(page, pageSize, Direction.valueOf(direction), field);
-        return contactService.retrievePage(pageable);
+        return contactService.retrievePage(pageable, filterField, filterValue);
     }
 
     /**

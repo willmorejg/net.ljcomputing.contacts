@@ -11,6 +11,7 @@ const contactsModule: Module<any, any> = {
         contacts: [],
         contactId: "",
         contact: new Contact("", "", "", ""),
+        filterValue: "",
     },
 
     getters: {
@@ -19,6 +20,7 @@ const contactsModule: Module<any, any> = {
         contacts: (state) => state.contacts,
         contactId: (state) => state.contactId,
         contact: (state) => state.contact,
+        filterValue: (state) => state.filterValue,
     },
 
     mutations: {
@@ -36,6 +38,9 @@ const contactsModule: Module<any, any> = {
         },
         CONTACT(state, contact) {
             state.contact = contact;
+        },
+        FILTER(state, filterValue) {
+            state.filterValue = filterValue;
         },
     },
 
@@ -59,6 +64,10 @@ const contactsModule: Module<any, any> = {
         contact(context, contact) {
             console.log("CONTACT");
             context.commit("CONTACT", contact);
+        },
+        filter(context, filterValue) {
+            console.log("FILTER");
+            context.commit("FILTER", filterValue);
         },
     },
 };

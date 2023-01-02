@@ -5,13 +5,21 @@
     <div class="card">
       <h5 class="card-title">Contacts List</h5>
       <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements > 0">
+        <div class="container">
+          <div class="row">
+            <div class="col-9">&nbsp;</div>
+            <div class="col-3"><b><i>Filter:</i></b> <input id="filterValue" @change="changeFilter()" v-model="filterValue" /></div>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered align-middle">
             <thead>
               <tr>
                 <th @click="changeSort('id')">Id<font-awesome-icon v-bind:icon="sortIcon('id')" /></th>
-                <th @click="changeSort('givenName')">Given Name<font-awesome-icon v-bind:icon="sortIcon('givenName')" /></th>
-                <th @click="changeSort('middleName')">Middle Name<font-awesome-icon v-bind:icon="sortIcon('middleName')" /></th>
+                <th @click="changeSort('givenName')">Given Name<font-awesome-icon v-bind:icon="sortIcon('givenName')" />
+                </th>
+                <th @click="changeSort('middleName')">Middle Name<font-awesome-icon
+                    v-bind:icon="sortIcon('middleName')" /></th>
                 <th @click="changeSort('surname')">Surname<font-awesome-icon v-bind:icon="sortIcon('surname')" /></th>
                 <th @click="changeSort('suffix')">Suffix<font-awesome-icon v-bind:icon="sortIcon('suffix')" /></th>
                 <th>&nbsp;</th>
@@ -63,6 +71,7 @@ enum Direction {
 
 let direction: Direction = Direction.ASC;
 let field: string = "surname";
+let filterValue: string = "";
 
 export default defineComponent({
   name: 'ContactsList',
@@ -79,6 +88,7 @@ export default defineComponent({
       store,
       field,
       direction,
+      filterValue,
     };
   },
   methods: {
@@ -125,16 +135,16 @@ export default defineComponent({
     sortIcon: function (value: string) {
       let retValue: string[] = []
 
-      if(value == this.field) {
+      if (value == this.field) {
         retValue = this.direction == Direction.ASC ? ['fa-solid', 'fa-sort-up'] : ['fa-solid', 'fa-sort-down']
       }
 
       return retValue;
     },
-    changeSort: function(value: string) {
+    changeSort: function (value: string) {
       let justSort: boolean = value == this.field
 
-      if(justSort) {
+      if (justSort) {
         this.direction = this.direction == Direction.ASC ? Direction.DESC : Direction.ASC
       } else {
         this.direction = Direction.ASC
@@ -143,6 +153,10 @@ export default defineComponent({
 
       this.retrieve()
     },
+    changeFilter: function () {
+      ContactsServices.setFilterValue(this.filterValue)
+      this.retrieve()
+    }
   },
   computed: mapState(['reloadContactsList']),
   watch: {

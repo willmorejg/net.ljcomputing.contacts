@@ -30,6 +30,30 @@ export default class ContactsServices {
         store.dispatch("contactsPageRequest", pageRequest);
     }
 
+    public static setFilterValue(filterValue: string): void {
+        let pageRequest: PageRequest = store.getters
+            .contactsPageRequest as PageRequest;
+
+        pageRequest.filterValue = filterValue;
+        store.dispatch("contactsPageRequest", pageRequest);
+    }
+
+    public static setPageRequest(
+        page: number,
+        field: string,
+        direction: string,
+        filterField: string,
+        filterValue: string
+    ): void {
+        let pageRequest: PageRequest = store.getters
+            .contactsPageRequest as PageRequest;
+        pageRequest.page = page;
+        pageRequest.field = field;
+        pageRequest.direction = direction;
+
+        store.dispatch("contactsPageRequest", pageRequest);
+    }
+
     public static async loadContacts(): Promise<void> {
         store.dispatch("reload");
         let pageRequest: PageRequest = store.getters
@@ -45,6 +69,8 @@ export default class ContactsServices {
                     pageSize: pageRequest.itemsPerPage,
                     field: pageRequest.field,
                     direction: pageRequest.direction,
+                    filterField: pageRequest.filterField,
+                    filterValue: pageRequest.filterValue,
                 },
             })
             .then(function (response) {
@@ -55,6 +81,37 @@ export default class ContactsServices {
                     ""
                 );
                 console.log("pageResponse", pageResponse);
+
+                let filteredData: Array<Contact> = [];
+                let filterValue = store.getters.filterValue;
+                console.log(
+                    "filterValue, store.getters.contacts",
+                    filterValue,
+                    store.getters.contacts
+                );
+
+                let responseData: any = pageResponse.data;
+                if (responseData.length > 0 && filterValue != "") {
+                    responseData.forEach(function (element: Contact) {
+                        console.log(
+                            "element.surname == filterValue",
+                            element.surname,
+                            filterValue
+                        );
+                        if (
+                            element.surname
+                                ?.toString()
+                                .toLowerCase()
+                                .includes(filterValue.toLowerCase())
+                        ) {
+                            filteredData.push(element);
+                        }
+                    });
+
+                    pageResponse.data = filteredData;
+                    pageResponse.totalElements = filteredData.length;
+                }
+
                 store.dispatch("contactsPageResponse", pageResponse);
                 store.dispatch("reloaded");
             })

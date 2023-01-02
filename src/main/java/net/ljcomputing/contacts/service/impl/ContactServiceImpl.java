@@ -70,6 +70,19 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
+     * Retrieve Page of Contacts.
+     *
+     * @param pageable
+     * @param filterField
+     * @param filterValue
+     * @return
+     */
+    public Page<Contact> retrievePage(Pageable pageable, String filterField, String filterValue) {
+        return contactRepository.findBySurnameContainsIgnoreCaseOrGivenNameContainsIgnoreCase(
+                pageable, filterValue, filterValue);
+    }
+
+    /**
      * Retrieve Contact by given id.
      *
      * @param id
