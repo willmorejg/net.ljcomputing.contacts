@@ -4,13 +4,13 @@
   <div class="container">
     <div class="card">
       <h5 class="card-title">Contacts List</h5>
-      <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements > 0">
-        <div class="container">
+      <div class="container">
           <div class="row">
             <div class="col-9">&nbsp;</div>
-            <div class="col-3"><b><i>Filter:</i></b> <input id="filterValue" @change="changeFilter()" v-model="filterValue" /></div>
+            <div class="col-3"><span class="filter-description"><b><i>Filter (Given Name or Surname):</i></b></span><input id="filterValue" placeholder="Filter Records By" @change="changeFilter()" v-model="filterValue" /></div>
           </div>
         </div>
+      <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements > 0">
         <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered align-middle">
             <thead>
@@ -52,6 +52,12 @@
   </div>
 
 </template>
+
+<style scoped>
+.filter-description {
+  font-size: 75%;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
