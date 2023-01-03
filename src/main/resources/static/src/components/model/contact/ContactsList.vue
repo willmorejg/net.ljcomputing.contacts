@@ -5,11 +5,21 @@
     <div class="card">
       <h5 class="card-title">Contacts List</h5>
       <div class="container">
-          <div class="row">
-            <div class="col-9">&nbsp;</div>
-            <div class="col-3"><span class="filter-description"><b><i>Filter (Given Name or Surname):</i></b></span><input id="filterValue" placeholder="Filter Records By" @change="changeFilter()" v-model="filterValue" /></div>
+        <div class="row">
+          <div class="col-4">&nbsp;</div>
+          <div class="col-3"><span class="filter-description"><b><i>Filter (Given Name or Surname):</i></b></span><input
+              id="filterValue" placeholder="Filter Records By" v-model="filterValue" /></div>
+        </div>
+        <div class="row">
+          <div class="col-4">&nbsp;</div>
+          <div class="col-8">
+            <button id="removeFilterValue" class="btn btn-sm btn-secondary align-self-center" type="button"
+              @click="filterValue = ''; changeFilter();">Remove</button>
+            <button id="removeFilterValue" class="btn btn-sm btn-primary align-self-center" type="button"
+              @click="changeFilter">Apply</button>
           </div>
         </div>
+      </div>
       <div class="card-body" v-if="store.getters.contactsPageResponse.totalElements > 0">
         <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered align-middle">
