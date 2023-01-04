@@ -4,11 +4,11 @@
   <div class="container">
     <div class="card">
       <h5 class="card-title">Contacts List</h5>
-      <div class="container">
+      <div class="container card-body">
         <div class="row">
           <div class="col-4">&nbsp;</div>
           <div class="col-3"><span class="filter-description"><b><i>Filter (Given Name or Surname):</i></b></span><input
-              id="filterValue" placeholder="Filter Records By" v-model="filterValue" /></div>
+              id="filterValue" type="text" placeholder="Filter Records By" v-model="filterValue" /></div>
         </div>
         <div class="row">
           <div class="col-4">&nbsp;</div>

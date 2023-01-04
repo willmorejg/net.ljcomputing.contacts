@@ -71,6 +71,12 @@ public class ContactsView extends BasePom {
     @FindBy(id = "centerLoadingSpinner")
     private WebElement centerLoadingSpinner;
 
+    @FindBy(id = "filterValue")
+    private WebElement filterValue;
+
+    @FindBy(id = "applyFilterValue")
+    private WebElement applyFilterValue;
+
     public ContactsView(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -110,6 +116,19 @@ public class ContactsView extends BasePom {
     public void setSuffix(String value) {
         clearWebElementValue(suffix);
         setWebElementValue(suffix, value);
+    }
+
+    public String getFilterValue() {
+        return getWebElementValue(filterValue);
+    }
+
+    public void setFilterValue(String value) {
+        clearWebElementValue(filterValue);
+        setWebElementValue(filterValue, value);
+    }
+
+    public void applyFilter() {
+        applyFilterValue.click();
     }
 
     public void submitContactDetail() {

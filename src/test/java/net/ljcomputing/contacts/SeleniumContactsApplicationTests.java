@@ -164,6 +164,14 @@ class SeleniumContactsApplicationTests {
             contactsView.takeScreenshot();
             assertEquals(
                     Integer.toString(data().size() - 1), contactsView.getPagnationTotalRecords());
+
+            if (contactsView.finishedLoading()) {
+                contactsView.setFilterValue("x");
+                contactsView.applyFilter();
+            }
+
+            assertEquals(Integer.toString(1), contactsView.getPagnationTotalRecords());
+
         } finally {
             driver.quit();
         }
