@@ -15,7 +15,7 @@
           <div class="col-8">
             <button id="removeFilterValue" class="btn btn-sm btn-secondary align-self-center" type="button"
               @click="filterValue = ''; changeFilter();">Remove</button>
-            <button id="removeFilterValue" class="btn btn-sm btn-primary align-self-center" type="button"
+            <button id="applyFilterValue" class="btn btn-sm btn-primary align-self-center" type="button"
               @click="changeFilter">Apply</button>
           </div>
         </div>
