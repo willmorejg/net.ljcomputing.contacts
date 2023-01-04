@@ -172,6 +172,12 @@ class SeleniumContactsApplicationTests {
 
             assertEquals(Integer.toString(1), contactsView.getPagnationTotalRecords());
 
+            if (contactsView.finishedLoading()) {
+                contactsView.removeFilter();
+            }
+
+            assertEquals(
+                    Integer.toString(data().size() - 1), contactsView.getPagnationTotalRecords());
         } finally {
             driver.quit();
         }

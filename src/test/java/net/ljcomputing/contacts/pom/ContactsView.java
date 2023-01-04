@@ -77,6 +77,9 @@ public class ContactsView extends BasePom {
     @FindBy(id = "applyFilterValue")
     private WebElement applyFilterValue;
 
+    @FindBy(id = "removeFilterValue")
+    private WebElement removeFilterValue;
+
     public ContactsView(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -129,6 +132,10 @@ public class ContactsView extends BasePom {
 
     public void applyFilter() {
         applyFilterValue.click();
+    }
+
+    public void removeFilter() {
+        removeFilterValue.click();
     }
 
     public void submitContactDetail() {
