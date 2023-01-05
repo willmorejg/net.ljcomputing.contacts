@@ -44,7 +44,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "contacts")
-public class Contact {
+public class Contact implements Model {
     /** Id of Contact. */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

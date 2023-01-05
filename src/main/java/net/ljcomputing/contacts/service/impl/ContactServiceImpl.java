@@ -20,53 +20,21 @@ James G Willmore - LJ Computing - (C) 2022-2023
 */
 package net.ljcomputing.contacts.service.impl;
 
-import java.util.List;
 import java.util.UUID;
-import javax.validation.Valid;
 import net.ljcomputing.contacts.model.Contact;
 import net.ljcomputing.contacts.repository.ContactRepository;
-import net.ljcomputing.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 /** Contact Service Implementation. */
 @Service
-public class ContactServiceImpl implements ContactService {
-    /** Contact data repository. */
-    @Autowired private ContactRepository contactRepository;
+public class ContactServiceImpl extends ApiServiceImpl<Contact> {
 
-    /**
-     * Persist the given Contact.
-     *
-     * @param contact
-     * @return
-     */
-    @Override
-    public Contact persist(@Valid Contact contact) {
-        contactRepository.save(contact);
-        return contact;
-    }
-
-    /**
-     * Retrieve all Contacts.
-     *
-     * @return
-     */
-    @Override
-    public List<Contact> retrieveAll() {
-        return (List<Contact>) contactRepository.findAll();
-    }
-
-    /**
-     * Retrieve Page of Contacts.
-     *
-     * @return
-     */
-    @Override
-    public Page<Contact> retrievePage(Pageable pageable) {
-        return contactRepository.findAll(pageable);
+    public ContactServiceImpl(@Autowired PagingAndSortingRepository<Contact, UUID> repository) {
+        super.repository = repository;
     }
 
     /**
@@ -78,29 +46,8 @@ public class ContactServiceImpl implements ContactService {
      * @return
      */
     public Page<Contact> retrievePage(Pageable pageable, String filterField, String filterValue) {
-        return contactRepository.findBySurnameContainsIgnoreCaseOrGivenNameContainsIgnoreCase(
-                pageable, filterValue, filterValue);
-    }
-
-    /**
-     * Retrieve Contact by given id.
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Contact retrieve(String id) {
-        return contactRepository.findById(UUID.fromString(id)).get();
-    }
-
-    /**
-     * Delete Contact by given id.
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public void delete(String id) {
-        contactRepository.deleteById(UUID.fromString(id));
+        return ((ContactRepository) repository)
+                .findBySurnameContainsIgnoreCaseOrGivenNameContainsIgnoreCase(
+                        pageable, filterValue, filterValue);
     }
 }

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
-import net.ljcomputing.contacts.service.ContactService;
+import net.ljcomputing.contacts.service.ApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort.Direction;
 @SpringBootTest
 class ContactsApplicationTests {
     /** Contact Service. */
-    @Autowired private ContactService contactService;
+    @Autowired private ApiService<Contact> contactService;
 
     /** Repository (Service) Test. */
     @Test

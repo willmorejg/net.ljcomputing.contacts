@@ -21,52 +21,52 @@ James G Willmore - LJ Computing - (C) 2022-2023
 package net.ljcomputing.contacts.service;
 
 import java.util.List;
-import net.ljcomputing.contacts.model.Contact;
+import net.ljcomputing.contacts.model.Model;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-/** Contact Service. */
-public interface ContactService {
+/** API Service. */
+public interface ApiService<T extends Model> {
     /**
-     * Persist the given Contact.
+     * Persist the given value.
      *
-     * @param contact
+     * @param value
      * @return
      */
-    Contact persist(Contact contact);
+    T persist(T value);
 
     /**
-     * Retrieve all Contacts.
+     * Retrieve all value.
      *
      * @return
      */
-    List<Contact> retrieveAll();
+    List<T> retrieveAll();
 
     /**
-     * Retrieve Page of Contacts.
+     * Retrieve Page of values.
      *
      * @param pageable
      * @return
      */
-    Page<Contact> retrievePage(Pageable pageable);
+    Page<T> retrievePage(Pageable pageable);
 
     /**
-     * Retrieve Page of Contacts.
+     * Retrieve Page of values.
      *
      * @param pageable
      * @param filterField
      * @param filterValue
      * @return
      */
-    Page<Contact> retrievePage(Pageable pageable, String filterField, String filterValue);
+    Page<T> retrievePage(Pageable pageable, String filterField, String filterValue);
 
     /**
-     * Retrieve Contact by given id.
+     * Retrieve value by given id.
      *
      * @param id
      * @return
      */
-    Contact retrieve(String id);
+    T retrieve(String id);
 
     /**
      * Delete Contact by given id.

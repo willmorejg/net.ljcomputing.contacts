@@ -23,7 +23,7 @@ package net.ljcomputing.contacts.controller;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.ljcomputing.contacts.model.Contact;
-import net.ljcomputing.contacts.service.ContactService;
+import net.ljcomputing.contacts.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,10 +44,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "api/contacts")
 @Slf4j
-public class ContactController {
+public class ContactController implements ApiController<Contact> {
 
     /** Contact Service. */
-    @Autowired private ContactService contactService;
+    @Autowired private ApiService<Contact> contactService;
 
     /**
      * Get all Contacts.
@@ -56,7 +56,7 @@ public class ContactController {
      */
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public Page<Contact> getContacts(
+    public Page<Contact> getPage(
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "5", required = false) Integer pageSize,
             @RequestParam(defaultValue = "ASC", required = false) String direction,
