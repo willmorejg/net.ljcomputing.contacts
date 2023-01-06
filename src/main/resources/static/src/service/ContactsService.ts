@@ -148,13 +148,13 @@ export default class ContactsServices {
         await axios
             .get("api/contacts/" + id)
             .then(function (response) {
-                let contact = new Contact(
-                    response.data.givenName,
-                    response.data.middleName,
-                    response.data.surname,
-                    response.data.suffix,
-                    response.data.id
-                );
+                let contact = {
+                    givenName: response.data.givenName,
+                    middleName: response.data.middleName,
+                    surname: response.data.surname,
+                    suffix: response.data.suffix,
+                    id: response.data.id,
+                };
                 store.dispatch("contact", contact);
                 store.dispatch("retrieved");
             })

@@ -61,7 +61,7 @@ import ContactsServices from '@/service/ContactsService';
 import PageResponse from '@/model/shared/PageResponse';
 
 let errorMsg: string = ""
-let contact: Contact = new Contact("", "", "", "", "");
+let contact: Contact = <Contact>{};
 
 export default defineComponent({
   name: 'ContactDetail',
@@ -126,7 +126,7 @@ export default defineComponent({
       this.setGivenNameFocused()
     },
     setContact: function (data: any) {
-      this.contact = new Contact(data.givenName, data.middleName, data.surname, data.suffix, data.id);
+      this.contact = { 'givenName': data.givenName, 'middleName': data.middleName, 'surname': data.surname, 'suffix': data.suffix, 'id': data.id };
     },
     loadContact: function () {
       const focusedElement = this.setGivenNameFocused

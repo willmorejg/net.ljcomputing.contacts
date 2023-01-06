@@ -10,7 +10,7 @@ const contactsModule: Module<any, any> = {
         contactsPageResponse: new PageResponse(),
         contacts: [],
         contactId: "",
-        contact: new Contact("", "", "", ""),
+        contact: <Contact>{},
         filterValue: "",
     },
 
