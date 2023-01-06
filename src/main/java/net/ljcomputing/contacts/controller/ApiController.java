@@ -31,4 +31,10 @@ public interface ApiController<T extends Model> {
             String field,
             String filterField,
             String filterValue);
+
+    T post(T value);
+
+    T get(String id);
+
+    void delete(String id);
 }

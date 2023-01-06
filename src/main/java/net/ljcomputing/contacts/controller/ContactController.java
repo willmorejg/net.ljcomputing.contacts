@@ -81,7 +81,7 @@ public class ContactController implements ApiController<Contact> {
      */
     @PostMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Contact postContact(@Valid @RequestBody Contact contact) {
+    public Contact post(@Valid @RequestBody Contact contact) {
         return contactService.persist(contact);
     }
 
@@ -93,7 +93,7 @@ public class ContactController implements ApiController<Contact> {
      */
     @GetMapping(value = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public Contact getContact(@PathVariable String id) {
+    public Contact get(@PathVariable String id) {
         return contactService.retrieve(id);
     }
 
@@ -105,7 +105,7 @@ public class ContactController implements ApiController<Contact> {
      */
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteContact(@PathVariable String id) {
+    public void delete(@PathVariable String id) {
         contactService.delete(id);
     }
 }
