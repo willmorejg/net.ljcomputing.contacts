@@ -6,38 +6,6 @@ import PageResponse from "@/model/shared/PageResponse";
 import Contact from "@/model/contact/Contact";
 
 export default class ContactsServices {
-    public static setActivePage(page: number): void {
-        let pageRequest: PageRequest = store.getters
-            .contactsPageRequest as PageRequest;
-
-        pageRequest.page = page;
-        store.dispatch("contactsPageRequest", pageRequest);
-    }
-
-    public static setField(field: string): void {
-        let pageRequest: PageRequest = store.getters
-            .contactsPageRequest as PageRequest;
-
-        pageRequest.field = field;
-        store.dispatch("contactsPageRequest", pageRequest);
-    }
-
-    public static setDirection(direction: string): void {
-        let pageRequest: PageRequest = store.getters
-            .contactsPageRequest as PageRequest;
-
-        pageRequest.direction = direction;
-        store.dispatch("contactsPageRequest", pageRequest);
-    }
-
-    public static setFilterValue(filterValue: string): void {
-        let pageRequest: PageRequest = store.getters
-            .contactsPageRequest as PageRequest;
-
-        pageRequest.filterValue = filterValue;
-        store.dispatch("contactsPageRequest", pageRequest);
-    }
-
     public static setPageRequest(
         page: number,
         field: string,
@@ -50,6 +18,7 @@ export default class ContactsServices {
         pageRequest.page = page;
         pageRequest.field = field;
         pageRequest.direction = direction;
+        pageRequest.filterValue = filterValue;
 
         store.dispatch("contactsPageRequest", pageRequest);
     }

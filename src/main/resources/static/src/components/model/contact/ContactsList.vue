@@ -112,10 +112,9 @@ export default defineComponent({
       const showModal = this.showModal
       const setTotalElements = this.setTotalElements
       let contactsPagnation = this.$refs.contactsPagnation as any
-      let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0
-      ContactsServices.setActivePage(page)
-      ContactsServices.setField(this.field)
-      ContactsServices.setDirection(this.direction.toString())
+      let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0      
+      ContactsServices.setPageRequest(page, this.field, this.direction.toString(), '', this.filterValue);
+
       ContactsServices.loadContacts().finally(() => {
         console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
         let response: PageResponse = store.getters.contactsPageResponse
@@ -170,7 +169,6 @@ export default defineComponent({
       this.retrieve()
     },
     changeFilter: function () {
-      ContactsServices.setFilterValue(this.filterValue)
       this.retrieve()
     }
   },
