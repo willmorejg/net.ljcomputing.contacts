@@ -64,11 +64,14 @@ public class ContactController implements ApiController<Contact> {
             @RequestParam(defaultValue = "", required = false) String filterField,
             @RequestParam(defaultValue = "", required = false) String filterValue) {
         log.debug(
-                "page: {}, pageSize: {}, field: {}, direction: {}",
+                "page: {}, pageSize: {}, field: {}, direction: {}, filterField: {}, filterValue:"
+                        + " {}",
                 page,
                 pageSize,
                 field,
-                direction);
+                direction,
+                filterField,
+                filterValue);
         Pageable pageable = PageRequest.of(page, pageSize, Direction.valueOf(direction), field);
         return contactService.retrievePage(pageable, filterField, filterValue);
     }
