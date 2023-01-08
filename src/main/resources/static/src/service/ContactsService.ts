@@ -5,6 +5,8 @@ import PageRequest from "@/model/shared/PageRequest";
 import PageResponse from "@/model/shared/PageResponse";
 import Contact from "@/model/contact/Contact";
 
+const API_CONTACTS_URL: string = "contacts";
+
 export default class ContactsServices {
     public static setPageRequest(
         page: number,
@@ -32,7 +34,7 @@ export default class ContactsServices {
         store.dispatch("contactsPageRequest", pageRequest);
 
         await axios
-            .get("api/contacts", {
+            .get(API_CONTACTS_URL, {
                 params: {
                     page: pageRequest.page,
                     pageSize: pageRequest.itemsPerPage,
@@ -98,7 +100,7 @@ export default class ContactsServices {
 
     public static async deleteContact(id: string): Promise<void> {
         await axios
-            .delete("api/contacts/" + id)
+            .delete(API_CONTACTS_URL + "/" + id)
             .then(function (response) {
                 console.log("response", response);
                 store.dispatch("reload");
@@ -115,7 +117,7 @@ export default class ContactsServices {
 
     public static async loadContact(id: string): Promise<void> {
         await axios
-            .get("api/contacts/" + id)
+            .get(API_CONTACTS_URL + "/" + id)
             .then(function (response) {
                 let contact = {
                     givenName: response.data.givenName,
@@ -139,7 +141,7 @@ export default class ContactsServices {
 
     public static async persistContact(contact: Contact): Promise<void> {
         await axios
-            .post("api/contacts", contact)
+            .post(API_CONTACTS_URL, contact)
             .then(function (response) {
                 store.dispatch("retrieved");
             })
