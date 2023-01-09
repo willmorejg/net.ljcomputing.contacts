@@ -22,8 +22,19 @@ package net.ljcomputing.contacts.model;
 
 import java.util.UUID;
 
+/** Data model interface. */
 public interface Model {
+    /**
+     * Get id of model.
+     *
+     * @return
+     */
     UUID getId();
 
+    /**
+     * Set id of model.
+     *
+     * @param id
+     */
     void setId(UUID id);
 }
