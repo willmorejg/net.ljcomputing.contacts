@@ -33,6 +33,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactServiceImpl extends ApiServiceImpl<Contact> {
 
+    /**
+     * Constructor.
+     *
+     * @param repository
+     */
     public ContactServiceImpl(@Autowired PagingAndSortingRepository<Contact, UUID> repository) {
         super.repository = repository;
     }
