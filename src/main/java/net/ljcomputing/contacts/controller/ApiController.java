@@ -23,7 +23,19 @@ package net.ljcomputing.contacts.controller;
 import net.ljcomputing.contacts.model.Model;
 import org.springframework.data.domain.Page;
 
+/** REST API Controller interface. */
 public interface ApiController<T extends Model> {
+    /**
+     * Get a Page of data.
+     *
+     * @param page
+     * @param pageSize
+     * @param direction
+     * @param field
+     * @param filterField
+     * @param filterValue
+     * @return
+     */
     Page<T> getPage(
             Integer page,
             Integer pageSize,
@@ -32,9 +44,26 @@ public interface ApiController<T extends Model> {
             String filterField,
             String filterValue);
 
+    /**
+     * Post model.
+     *
+     * @param value
+     * @return
+     */
     T post(T value);
 
+    /**
+     * Get model by id.
+     *
+     * @param id
+     * @return
+     */
     T get(String id);
 
+    /**
+     * Delete model by id.
+     *
+     * @param id
+     */
     void delete(String id);
 }
