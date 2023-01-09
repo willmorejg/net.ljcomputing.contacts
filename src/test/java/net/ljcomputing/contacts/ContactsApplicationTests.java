@@ -26,8 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 import net.ljcomputing.contacts.model.Contact;
+import net.ljcomputing.contacts.model.EmailAddress;
 import net.ljcomputing.contacts.service.ApiService;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -37,17 +40,23 @@ import org.springframework.data.domain.Sort.Direction;
 /** Contacts Application Unit Tests. */
 @SpringBootTest
 class ContactsApplicationTests {
+    /** Logging instance. */
+    private static final Logger log = LoggerFactory.getLogger(ContactsApplicationTests.class);
+
     /** Contact Service. */
     @Autowired private ApiService<Contact> contactService;
 
-    /** Repository (Service) Test. */
+    /** Email Address Service. */
+    @Autowired private ApiService<EmailAddress> emailAddressService;
+
+    /** Services Tests. */
     @Test
-    void repositoryTest() {
+    void servicesTests() {
         List<Contact> contacts = new ArrayList<>();
-        contacts.add(new Contact(null, "Ab", "ab", "4Bb", "bb"));
-        contacts.add(new Contact(null, "Ac", "ac", "2Bc", "bc"));
-        contacts.add(new Contact(null, "Ad", "ad", "1Bd", "bd"));
-        contacts.add(new Contact(null, "A", "a", "3B", "b"));
+        contacts.add(new Contact("Ab", "ab", "4Bb", "bb"));
+        contacts.add(new Contact("Ac", "ac", "2Bc", "bc"));
+        contacts.add(new Contact("Ad", "ad", "1Bd", "bd"));
+        contacts.add(new Contact("A", "a", "3B", "b"));
 
         for (Contact contact : contacts) {
             contactService.persist(contact);
@@ -59,5 +68,17 @@ class ContactsApplicationTests {
 
         Pageable pageable = PageRequest.of(0, 4, Direction.valueOf("DESC"), "surname");
         assertEquals(4, contactService.retrievePage(pageable).toList().size());
+
+        String localPart =
+                String.format(
+                        "%s.%s", contacts.get(0).getGivenName(), contacts.get(0).getSurname());
+
+        EmailAddress emailAddress = new EmailAddress(localPart, "dev.net", contacts.get(0));
+        emailAddress = emailAddressService.persist(emailAddress);
+        log.debug("emailAddress: {}", emailAddress.getContact());
+
+        Contact contactWithAssociated = contactService.retrieve(contacts.get(0).getId().toString());
+        log.debug("contactWithAssociated: {}", contactWithAssociated);
+        assertEquals(1, contactWithAssociated.getEmailAddresses().size());
     }
 }

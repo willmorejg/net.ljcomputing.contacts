@@ -16,85 +16,73 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 
-James G Willmore - LJ Computing - (C) 2022-2023
+James G Willmore - LJ Computing - (C) 2023
 */
 package net.ljcomputing.contacts.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/** Contact data model. */
 @Data
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "contact")
-public class Contact implements Model {
-    /** Id of Contact. */
+@Table(name = "email_address")
+public class EmailAddress implements Model {
+    /** Id of Email. */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    /** Given (first) name of Contact. */
-    @Column(name = "given_name", length = 100)
-    @Size(max = 100)
+    /** Local part of email address. */
+    @Column(name = "localPart", length = 64)
+    @Size(max = 64)
     @NotNull
-    @NotEmpty(message = "Given name is required")
-    private String givenName;
+    @NotEmpty(message = "Local part is required")
+    private String localPart;
 
-    /** Middle name of Contact. */
-    @Column(name = "middle_name", length = 100)
-    @Size(max = 100)
-    private String middleName;
-
-    /** Surname (last name) of Contact. */
-    @Column(name = "surname", length = 100)
-    @Size(max = 100)
+    /** Domain part of emaill adress. */
+    @Column(name = "domain", length = 255)
+    @Size(max = 255)
     @NotNull
-    @NotEmpty(message = "Surname is required")
-    private String surname;
+    @NotEmpty(message = "Domain is required")
+    private String domain;
 
-    /** Suffix of Contact. */
-    @Column(name = "suffix", length = 100)
-    @Size(max = 100)
-    private String suffix;
-
-    /** Email addresses */
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private List<EmailAddress> emailAddresses = new ArrayList<>();
+    /** Contact associated with Email Address. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id", nullable = false)
+    @JsonBackReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Contact contact;
 
     /**
      * Constructor.
      *
-     * @param givenName
-     * @param middleName
-     * @param surname
-     * @param suffix
+     * @param localPart
+     * @param domain
+     * @param contact
      */
-    public Contact(String givenName, String middleName, String surname, String suffix) {
-        this.givenName = givenName;
-        this.middleName = middleName;
-        this.surname = surname;
-        this.suffix = suffix;
+    public EmailAddress(String localPart, String domain, Contact contact) {
+        this.localPart = localPart;
+        this.domain = domain;
+        this.contact = contact;
     }
 }
