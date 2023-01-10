@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 
 import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootswatch/dist/cosmo/bootstrap.min.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {

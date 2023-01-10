@@ -37,14 +37,13 @@
             </thead>
             <tbody>
               <tr v-for="contact in store.getters.contactsPageResponse.data">
-                <td>{{ contact.id }}</td>
+                <td><a href="javascript:void(0);" v-bind:id="createId('edit', contact.id)"
+                    @click="editContact(contact.id)">{{ contact.id }}</a></td>
                 <td>{{ contact.givenName }}</td>
                 <td>{{ contact.middleName }}</td>
                 <td>{{ contact.surname }}</td>
                 <td>{{ contact.suffix }}</td>
                 <td>
-                  <a href="javascript:void(0);" v-bind:id="createId('edit', contact.id)"
-                    @click="editContact(contact.id)">Edit</a>&nbsp;
                   <a href="javascript:void(0);" v-bind:id="createId('delete', contact.id)"
                     @click="deleteContact(contact.id)">Delete</a>
                 </td>
