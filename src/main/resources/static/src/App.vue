@@ -60,7 +60,7 @@
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  background-color: rgb(76, 91, 226);
+  background-color: #5f6163;
 }
 
 .card {
