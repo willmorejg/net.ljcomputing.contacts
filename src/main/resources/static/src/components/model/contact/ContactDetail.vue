@@ -57,7 +57,7 @@ import { required } from '@vuelidate/validators'
 import Contact from '@/model/contact/Contact'
 import ErrorModal from '../../common/ErrorModal.vue';
 import store from '@/store';
-import ContactsServices from '@/service/ContactsService';
+import ContactsService from '@/service/ContactsService';
 import PageResponse from '@/model/shared/PageResponse';
 
 let errorMsg: string = ""
@@ -99,7 +99,7 @@ export default defineComponent({
       this.v$.$touch();
 
       if (!this.v$.$invalid) {
-        ContactsServices.persistContact(this.contact).finally(() => {
+        ContactsService.persistContact(this.contact).finally(() => {
           console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
           let response: PageResponse = store.getters.contactsPageResponse
 
@@ -132,7 +132,7 @@ export default defineComponent({
       const focusedElement = this.setGivenNameFocused
       const id = store.getters.contactId;
 
-      ContactsServices.loadContact(id).finally(() => {
+      ContactsService.loadContact(id).finally(() => {
         console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
         let response: PageResponse = store.getters.contactsPageResponse
 

@@ -73,7 +73,7 @@
 import { defineComponent, ref } from 'vue';
 import { mapState } from 'vuex';
 
-import ContactsServices from '@/service/ContactsService';
+import ContactsService from '@/service/ContactsService';
 import ErrorModal from '../../common/ErrorModal.vue';
 import Pagnation from '../../common/Pagnation.vue';
 import CenterLoadingSpinner from '../../common/CenterLoadingSpinner.vue';
@@ -113,9 +113,9 @@ export default defineComponent({
       const setTotalElements = this.setTotalElements
       let contactsPagnation = this.$refs.contactsPagnation as any
       let page: number = contactsPagnation ? contactsPagnation.getRequestedPage() : 0      
-      ContactsServices.setPageRequest(page, this.field, this.direction.toString(), '', this.filterValue);
+      ContactsService.setPageRequest(page, this.field, this.direction.toString(), '', this.filterValue);
 
-      ContactsServices.loadContacts().finally(() => {
+      ContactsService.loadContacts().finally(() => {
         console.log('store.getters.contactsPageResponse', store.getters.contactsPageResponse)
         let response: PageResponse = store.getters.contactsPageResponse
 
@@ -127,7 +127,7 @@ export default defineComponent({
       })
     },
     deleteContact: function (id: string) {
-      ContactsServices.deleteContact(id)
+      ContactsService.deleteContact(id)
     },
     editContact: function (id: string) {
       store.dispatch('contactId', id)

@@ -20,6 +20,7 @@ James G Willmore - LJ Computing - (C) 2022-2023
 */
 package net.ljcomputing.contacts.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

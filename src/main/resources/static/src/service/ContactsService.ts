@@ -7,7 +7,7 @@ import Contact from "@/model/contact/Contact";
 
 const API_CONTACTS_URL: string = "contacts";
 
-export default class ContactsServices {
+export default class ContactsService {
     public static setPageRequest(
         page: number,
         field: string,
